@@ -21,8 +21,9 @@ public class BlocksData
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GridLayoutGroup gridLayoutGroup;
-
+    [SerializeField] private Transform cardPrefab;
     private List<Card> cards;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -35,9 +36,18 @@ public class GameManager : MonoBehaviour
 
             BlocksData blocksData = JsonUtility.FromJson<BlocksData>(jsonContent);
 
+            Transform gameCard;
+            
             foreach (var block in blocksData.blocks)
             {
-                Debug.Log($"R: {block.R}, C: {block.C}, Number: {block.number}");
+                gameCard = Instantiate(cardPrefab, gridLayoutGroup.transform);
+                if (gameCard.TryGetComponent(out Card cardComponent))
+                {
+                    cardComponent.cardId = block.number;
+                    cardComponent.column = block.C;
+                    cardComponent.row = block.R;
+                    cardComponent.numberText.text = block.number.ToString();
+                }
             }
             int numberColumns = GetColumnCount(blocksData.blocks);
             gridLayoutGroup.constraintCount = numberColumns;
