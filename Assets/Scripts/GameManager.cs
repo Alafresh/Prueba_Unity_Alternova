@@ -1,3 +1,4 @@
+using Ricimi;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,9 +27,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] GridLayoutGroup gridLayoutGroup;
     [SerializeField] private Transform cardPrefab;
     [SerializeField] private List<Card> cardPool;
+    [SerializeField] private PopupOpener winPanel;
     private GameObject card1, card2;
     private Card card1Component, card2Component;
-
+    private BlocksData blocksData;
+    private float startTime;
 
     private void Awake()
     {
@@ -41,13 +44,11 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "Bloques.json");
         string jsonContent;
         //Transform gameCard;
-        BlocksData blocksData;
         int numberRows;
         int numberColumns;
         bool numberInRange;
@@ -119,6 +120,8 @@ public class GameManager : MonoBehaviour
                 cardPool[i].gameObject.SetActive(true);
             }
 
+            startTime = Time.time;
+
             //foreach (var block in blocksData.blocks)
             //{
             //    gameCard = Instantiate(cardPrefab, gridLayoutGroup.transform);
@@ -167,7 +170,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
+    
     private void CheckPair(Card card1, Card card2)
     {
         if (card1.cardId == card2.cardId)
@@ -175,6 +178,11 @@ public class GameManager : MonoBehaviour
             Debug.Log("Par encontrado");
             this.card1 = this.card2 = null;
             card1Component = card2Component = null;
+
+            if (CheckWin())
+            {
+                winPanel.OpenPopup();
+            }
         }
         else
         {
@@ -212,6 +220,25 @@ public class GameManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    private bool CheckWin()
+    {
+        int totalCards = blocksData.blocks.Length;
+        int count = 0;
+        foreach (Card card in cardPool)
+        {
+            if (card.isUsed)
+            {
+                count++;
+            }
+        }
+        if (count == totalCards)
+        {
+            Debug.Log(startTime);
+            return true;
+        }
+        return false;
     }
 
     private int GetRowCount(Block[] blocks)
