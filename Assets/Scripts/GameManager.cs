@@ -25,8 +25,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     [SerializeField] GridLayoutGroup gridLayoutGroup;
     [SerializeField] private Transform cardPrefab;
+    [SerializeField] private List<Card> cardPool;
     private GameObject card1, card2;
     private Card card1Component, card2Component;
+
 
     private void Awake()
     {
@@ -44,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         string path = Path.Combine(Application.streamingAssetsPath, "Bloques.json");
         string jsonContent;
-        Transform gameCard;
+        //Transform gameCard;
         BlocksData blocksData;
         int numberRows;
         int numberColumns;
@@ -99,19 +101,33 @@ public class GameManager : MonoBehaviour
                 return a.R.CompareTo(b.R); 
             });
 
-
-            foreach (var block in blocksData.blocks)
+            foreach(Card card in cardPool)
             {
-                gameCard = Instantiate(cardPrefab, gridLayoutGroup.transform);
-                if (gameCard.TryGetComponent(out Card cardComponent))
-                {
-                    cardComponent.cardId = block.number;
-                    cardComponent.column = block.C;
-                    cardComponent.row = block.R;
-                    cardComponent.numberText.alpha = 0;
-                    cardComponent.numberText.text = block.number.ToString();
-                }
+                card.gameObject.SetActive(false);
             }
+
+            for (int i = 0; i < blocksData.blocks.Length; i++)
+            {
+                cardPool[i].cardId = blocksData.blocks[i].number;
+                cardPool[i].row = blocksData.blocks[i].R;
+                cardPool[i].column = blocksData.blocks[i].C;
+                cardPool[i].numberText.alpha = 0;
+                cardPool[i].numberText.text = blocksData.blocks[i].number.ToString();
+                cardPool[i].gameObject.SetActive(true);
+            }
+
+            //foreach (var block in blocksData.blocks)
+            //{
+            //    gameCard = Instantiate(cardPrefab, gridLayoutGroup.transform);
+            //    if (gameCard.TryGetComponent(out Card cardComponent))
+            //    {
+            //        cardComponent.cardId = block.number;
+            //        cardComponent.column = block.C;
+            //        cardComponent.row = block.R;
+            //        cardComponent.numberText.alpha = 0;
+            //        cardComponent.numberText.text = block.number.ToString();
+            //    }
+            //}
         }
         else
         {

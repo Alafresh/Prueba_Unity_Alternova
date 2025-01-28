@@ -7,6 +7,6 @@ public class test : MonoBehaviour
 {
     public void Test()
     {
-        Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+        Debug.Log(EventSystem.current.currentSelectedGameObject);
     }
 }
