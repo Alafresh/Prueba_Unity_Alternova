@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [System.Serializable]
@@ -21,10 +22,23 @@ public class BlocksData
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
     [SerializeField] GridLayoutGroup gridLayoutGroup;
     [SerializeField] private Transform cardPrefab;
-    private List<Card> cards;
-    
+    private GameObject card1, card2;
+    private Card card1Component, card2Component;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("Hay mas de un GameManager " + transform + " - " + Instance);
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -94,6 +108,7 @@ public class GameManager : MonoBehaviour
                     cardComponent.cardId = block.number;
                     cardComponent.column = block.C;
                     cardComponent.row = block.R;
+                    cardComponent.numberText.alpha = 0;
                     cardComponent.numberText.text = block.number.ToString();
                 }
             }
@@ -101,7 +116,70 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogError("El archivo JSON no se encontró en la ruta: " + path);
+            return;
         }
+    }
+
+    public void GetPair()
+    {
+        if (card1 == null && card2 == null)
+        {
+            card1 = EventSystem.current.currentSelectedGameObject;
+            Debug.Log(card1);
+            card1.TryGetComponent(out Card cardComponent);
+            card1Component = cardComponent;
+            cardComponent.numberText.alpha = 1;
+            cardComponent.isUsed = true;
+            card1.TryGetComponent(out Button buttonComponent);
+            buttonComponent.interactable = false;
+        }
+        else if (card2 == null)
+        {
+            if(EventSystem.current.currentSelectedGameObject != card1)
+            {
+                card2 = EventSystem.current.currentSelectedGameObject;
+                card2.TryGetComponent(out Card cardComponent);
+                card2Component = cardComponent;
+                cardComponent.numberText.alpha = 1;
+                cardComponent.isUsed = true;
+                card2.TryGetComponent(out Button buttonComponent);
+                buttonComponent.interactable = false;
+                CheckPair(card1Component, card2Component);
+            }
+        }
+    }
+
+    private void CheckPair(Card card1, Card card2)
+    {
+        if (card1.cardId == card2.cardId)
+        {
+            Debug.Log("Par encontrado");
+            this.card1 = this.card2 = null;
+            card1Component = card2Component = null;
+        }
+        else
+        {
+            card1Component.isUsed = false;
+            card2Component.isUsed = false;
+            this.card1.TryGetComponent(out Button buttonComponent1);
+            buttonComponent1.interactable = true;
+            this.card2.TryGetComponent(out Button buttonComponent2);
+            buttonComponent2.interactable = true;
+            StartCoroutine(HideCards());
+        }
+    }
+
+    private IEnumerator HideCards()
+    {
+        yield return new WaitForSeconds(1);
+        card1Component.numberText.alpha = 0;
+        card2Component.numberText.alpha = 0;
+        card1.TryGetComponent(out Button buttonComponent1);
+        buttonComponent1.animationTriggers.normalTrigger = "Pressed";
+        card2.TryGetComponent(out Button buttonComponent2);
+        buttonComponent1.animationTriggers.normalTrigger = "Pressed";
+        card1 = card2 = null;
+        card1Component = card2Component = null;
     }
 
     private bool GetNumbersInRange(Block[] blocks) 

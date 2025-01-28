@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
@@ -8,4 +9,10 @@ public class Card : MonoBehaviour
     public int column;
     public bool isUsed;
     public TextMeshProUGUI numberText;
+    [SerializeField] Button button;
+
+    private void OnEnable()
+    {
+        button.onClick.AddListener(() => GameManager.Instance.GetPair());
+    }
 }
