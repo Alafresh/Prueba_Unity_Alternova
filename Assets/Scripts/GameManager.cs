@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
     private GameObject card1, card2;
     private Card card1Component, card2Component;
     private BlocksData blocksData;
-    private float startTime;
 
     private void Awake()
     {
@@ -119,8 +118,6 @@ public class GameManager : MonoBehaviour
                 cardPool[i].numberText.text = blocksData.blocks[i].number.ToString();
                 cardPool[i].gameObject.SetActive(true);
             }
-
-            startTime = Time.time;
 
             //foreach (var block in blocksData.blocks)
             //{
@@ -235,7 +232,6 @@ public class GameManager : MonoBehaviour
         }
         if (count == totalCards)
         {
-            Debug.Log(startTime);
             return true;
         }
         return false;
