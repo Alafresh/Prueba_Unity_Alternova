@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -28,16 +29,63 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "Bloques.json");
+        string jsonContent;
+        Transform gameCard;
+        BlocksData blocksData;
+        int numberRows;
+        int numberColumns;
+        bool numberInRange;
 
         if (File.Exists(path))
         {
-            string jsonContent = File.ReadAllText(path);
+            try
+            {
+                jsonContent = File.ReadAllText(path);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error al cargar el archivo JSON: " + e.Message);
+                return;
+            }
+            
             Debug.Log("Archivo JSON cargado correctamente:\n" + jsonContent);
 
-            BlocksData blocksData = JsonUtility.FromJson<BlocksData>(jsonContent);
+            blocksData = JsonUtility.FromJson<BlocksData>(jsonContent);
 
-            Transform gameCard;
-            
+            if (blocksData.blocks.Length % 2 != 0)
+            {
+                Debug.LogError("El número de bloques debe ser par.");
+                return;
+            }
+            numberInRange = GetNumbersInRange(blocksData.blocks);
+            if (!numberInRange)
+            {
+                Debug.LogError("El valor de los bloques debe estar entre 0 y 9.");
+                return;
+            }
+            numberRows = GetRowCount(blocksData.blocks);
+            if(numberRows < 2 || numberRows > 8)
+            {
+                Debug.LogError("El número de filas debe estar entre 2 y 8.");
+                return;
+            }
+            numberColumns = GetColumnCount(blocksData.blocks);
+            if (numberColumns < 2 || numberColumns > 8)
+            {
+                Debug.LogError("El número de columnas debe estar entre 2 y 8.");
+                return;
+            }
+
+            gridLayoutGroup.constraintCount = numberColumns;
+
+            Array.Sort(blocksData.blocks, (a, b) =>
+            {
+                if (a.R == b.R)
+                    return a.C.CompareTo(b.C);
+                return a.R.CompareTo(b.R); 
+            });
+
+
             foreach (var block in blocksData.blocks)
             {
                 gameCard = Instantiate(cardPrefab, gridLayoutGroup.transform);
@@ -49,36 +97,46 @@ public class GameManager : MonoBehaviour
                     cardComponent.numberText.text = block.number.ToString();
                 }
             }
-            int numberColumns = GetColumnCount(blocksData.blocks);
-            gridLayoutGroup.constraintCount = numberColumns;
-            int numberRows = GetRowCount(blocksData.blocks);
-            Debug.Log("Numero de columnas es"+ numberColumns);
-            Debug.Log("Numero de filas es" + numberRows);
+        }
+        else
+        {
+            Debug.LogError("El archivo JSON no se encontró en la ruta: " + path);
         }
     }
 
-    int GetRowCount(Block[] blocks)
+    private bool GetNumbersInRange(Block[] blocks) 
     {
-        // Usamos un HashSet para almacenar valores únicos de rows
-        HashSet<int> uniqueRows = new HashSet<int>();
-
         foreach (Block block in blocks)
         {
-            uniqueRows.Add(block.R); // Agrega la fila al conjunto
+            if(block.number < 0 || block.number > 9)
+            {
+                Debug.LogError($"El bloque con el valor {block.number} no se encuentra en el rango");
+                return false;
+            }
         }
-        return uniqueRows.Count; // El número de rows únicas
+        return true;
     }
-    
-    int GetColumnCount(Block[] blocks)
+
+    private int GetRowCount(Block[] blocks)
     {
-        // Usamos un HashSet para almacenar valores únicos de columnas
+        HashSet<int> uniqueRows = new HashSet<int>();
+        foreach (Block block in blocks)
+        {
+            uniqueRows.Add(block.R);
+        }
+        return uniqueRows.Count;
+    }
+
+    private int GetColumnCount(Block[] blocks)
+    {
+
         HashSet<int> uniqueColumns = new HashSet<int>();
 
         foreach (Block block in blocks)
         {
-            uniqueColumns.Add(block.C); // Agrega la columna al conjunto
+            uniqueColumns.Add(block.C);
         }
-        return uniqueColumns.Count; // El número de columnas únicas
+        return uniqueColumns.Count;
     }
 }
 
