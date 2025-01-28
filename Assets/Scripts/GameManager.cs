@@ -91,8 +91,11 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("El número de columnas debe estar entre 2 y 8.");
                 return;
             }
-
-            gridLayoutGroup.constraintCount = numberColumns;
+            if (numberRows < 5)
+            {
+                gridLayoutGroup.cellSize = new Vector2(170, 170);
+            }
+            gridLayoutGroup.constraintCount = numberRows;
 
             Array.Sort(blocksData.blocks, (a, b) =>
             {
@@ -149,7 +152,7 @@ public class GameManager : MonoBehaviour
             card1.TryGetComponent(out Button buttonComponent);
             buttonComponent.interactable = false;
         }
-        else if (card2 == null)
+        else if (card1 != null && card2 == null)
         {
             if(EventSystem.current.currentSelectedGameObject != card1)
             {

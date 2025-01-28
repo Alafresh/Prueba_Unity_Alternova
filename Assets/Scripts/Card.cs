@@ -11,7 +11,7 @@ public class Card : MonoBehaviour
     public TextMeshProUGUI numberText;
     [SerializeField] Button button;
 
-    private void OnEnable()
+    private void Start()
     {
         button.onClick.AddListener(() => GameManager.Instance.GetPair());
     }
