@@ -40,7 +40,6 @@ public class Timer : MonoBehaviour
     public int GetTime()
     {
         int totalSeconds = Mathf.FloorToInt(timeRemaining);
-        Debug.Log("Total seconds: " + totalSeconds);
         return totalSeconds;
     }
 }

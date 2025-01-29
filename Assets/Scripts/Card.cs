@@ -13,7 +13,7 @@ public class Card : MonoBehaviour
 
     private void Start()
     {
-        button.onClick.AddListener(() => GameManager.Instance.GetPair());
         button.onClick.AddListener(() => GameManager.Instance.AddClick());
+        button.onClick.AddListener(() => GameManager.Instance.GetPair());
     }
 }
