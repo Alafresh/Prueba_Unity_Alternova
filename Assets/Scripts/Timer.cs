@@ -14,7 +14,6 @@ public class Timer : MonoBehaviour
         timerIsRunning = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (timerIsRunning)
@@ -32,5 +31,16 @@ public class Timer : MonoBehaviour
         float minutes = Mathf.FloorToInt(timeToDisplay / 60);
         float seconds = Mathf.FloorToInt(timeToDisplay % 60);
         timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    public void StopTimer()
+    {
+        timerIsRunning = false;
+    }
+    public int GetTime()
+    {
+        int totalSeconds = Mathf.FloorToInt(timeRemaining);
+        Debug.Log("Total seconds: " + totalSeconds);
+        return totalSeconds;
     }
 }

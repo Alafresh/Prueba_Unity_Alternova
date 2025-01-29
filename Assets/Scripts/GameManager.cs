@@ -21,9 +21,25 @@ public class BlocksData
     public Block[] blocks;
 }
 
+[System.Serializable]
+public class Results
+{
+    public int total_clicks;
+    public int total_time;
+    public int pairs;
+    public int score;
+}
+
+[System.Serializable]
+public class GamesResults
+{
+    public Results results;
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    [SerializeField] private Timer timer;
     [SerializeField] GridLayoutGroup gridLayoutGroup;
     [SerializeField] private Transform cardPrefab;
     [SerializeField] private List<Card> cardPool;
@@ -31,6 +47,9 @@ public class GameManager : MonoBehaviour
     private GameObject card1, card2;
     private Card card1Component, card2Component;
     private BlocksData blocksData;
+    private GamesResults gameResults;
+    private int totalClicks;
+    private int totalPairs;
 
     private void Awake()
     {
@@ -41,6 +60,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+        
     }
 
     void Start()
@@ -144,7 +164,6 @@ public class GameManager : MonoBehaviour
         if (card1 == null && card2 == null)
         {
             card1 = EventSystem.current.currentSelectedGameObject;
-            Debug.Log(card1);
             card1.TryGetComponent(out Card cardComponent);
             card1Component = cardComponent;
             cardComponent.numberText.alpha = 1;
@@ -173,12 +192,14 @@ public class GameManager : MonoBehaviour
         if (card1.cardId == card2.cardId)
         {
             Debug.Log("Par encontrado");
+            totalPairs++;
             this.card1 = this.card2 = null;
             card1Component = card2Component = null;
 
             if (CheckWin())
             {
                 winPanel.OpenPopup();
+                SaveResultsToJson();
             }
         }
         else
@@ -232,9 +253,45 @@ public class GameManager : MonoBehaviour
         }
         if (count == totalCards)
         {
+            timer.StopTimer();
             return true;
         }
         return false;
+    }
+
+    public void AddClick()
+    {
+        totalClicks++;
+        Debug.Log("Total clicks: " + totalClicks);
+    }
+
+    private int CalculateScore()
+    {
+        int score = 0;
+        score += 1000 - timer.GetTime();
+        score += 1000 - totalClicks;
+        score += 1000 * totalPairs;
+        return score;
+    }
+
+    private void SaveResultsToJson()
+    {
+        gameResults = new GamesResults()
+        {
+            results = new Results
+            {
+                total_clicks = totalClicks,
+                total_time = timer.GetTime(),
+                pairs = totalPairs,
+                score = CalculateScore()
+            }
+        };
+
+        string json = JsonUtility.ToJson(gameResults, true);
+        string path = Application.dataPath + "/GameResults.json";
+        File.WriteAllText(path, json);
+
+        Debug.Log("Resultados guardados en: " + path);
     }
 
     private int GetRowCount(Block[] blocks)
@@ -259,5 +316,3 @@ public class GameManager : MonoBehaviour
         return uniqueColumns.Count;
     }
 }
-
-
