@@ -34,7 +34,7 @@ public class Results
 [System.Serializable]
 public class GamesResults
 {
-    public Results results;
+    public Results[] results;
 }
 
 public class GameManager : MonoBehaviour
@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     private int totalPairs;
     public UnityEvent<int> UpdateClicksUI;
     public UnityEvent<int> UpdatePairsUI;
+    List<Results> resultsList = new List<Results>();
+
     private void Awake()
     {
         if (Instance != null)
@@ -206,7 +208,7 @@ public class GameManager : MonoBehaviour
             if (CheckWin())
             {
                 winPanel.OpenPopup();
-                SaveResultsToJson();
+                CheckResultsToJson();
             }
         }
         else
@@ -278,24 +280,58 @@ public class GameManager : MonoBehaviour
         return score;
     }
 
-    private void SaveResultsToJson()
+    private void CheckResultsToJson()
     {
+        string pathGame =  Application.dataPath + "/GameResults.json";
+        string existingJson;
+
+        
+
+        if (File.Exists(pathGame))
+        {
+            try
+            {
+                existingJson = File.ReadAllText(pathGame);
+                gameResults = JsonUtility.FromJson<GamesResults>(existingJson);
+                if (gameResults.results != null && gameResults != null)
+                {
+                    resultsList.AddRange(gameResults.results);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error al cargar el archivo JSON: " + e.Message);
+                return;
+            }
+
+            SaveResultsToJson();
+
+            Debug.Log("Resultados guardados en: " + pathGame);
+        }
+        else
+        {
+            SaveResultsToJson();
+        }
+    }
+
+    public void SaveResultsToJson()
+    {
+        resultsList.Add(new Results()
+        {
+            total_clicks = totalClicks,
+            total_time = timer.GetTime(),
+            pairs = totalPairs,
+            score = CalculateScore()
+        });
+
         gameResults = new GamesResults()
         {
-            results = new Results
-            {
-                total_clicks = totalClicks,
-                total_time = timer.GetTime(),
-                pairs = totalPairs,
-                score = CalculateScore()
-            }
+            results = resultsList.ToArray()
         };
 
         string json = JsonUtility.ToJson(gameResults, true);
         string path = Application.dataPath + "/GameResults.json";
         File.WriteAllText(path, json);
-
-        Debug.Log("Resultados guardados en: " + path);
     }
 
     private int GetRowCount(Block[] blocks)

@@ -1,8 +1,10 @@
 {
-    "results": {
-        "total_clicks": 16,
-        "total_time": 9,
-        "pairs": 6,
-        "score": 7975
-    }
+    "results": [
+        {
+            "total_clicks": 12,
+            "total_time": 9,
+            "pairs": 6,
+            "score": 7979
+        }
+    ]
 }
