@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform cardPrefab;
     [SerializeField] private List<Card> cardPool;
     [SerializeField] private PopupOpener winPanel;
+    [SerializeField] private Sprite rightPair;
     private GameObject card1, card2;
     private Card card1Component, card2Component;
     private BlocksData blocksData;
@@ -193,6 +194,9 @@ public class GameManager : MonoBehaviour
     {
         if (card1.cardId == card2.cardId)
         {
+            card1.transform.GetChild(0).TryGetComponent(out Image image1);
+            card2.transform.GetChild(0).TryGetComponent(out Image image2);
+            image1.sprite = image2.sprite = rightPair;
             Debug.Log("Par encontrado");
             totalPairs++;
             UpdatePairsUI.Invoke(totalPairs);
@@ -207,12 +211,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            card1Component.isUsed = false;
-            card2Component.isUsed = false;
+            card1Component.isUsed = card2Component.isUsed = false;
             this.card1.TryGetComponent(out Button buttonComponent1);
-            buttonComponent1.interactable = true;
             this.card2.TryGetComponent(out Button buttonComponent2);
-            buttonComponent2.interactable = true;
+            buttonComponent1.interactable = buttonComponent2.interactable = true;
             StartCoroutine(HideCards());
         }
     }
@@ -220,12 +222,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator HideCards()
     {
         yield return new WaitForSeconds(1);
-        card1Component.numberText.alpha = 0;
-        card2Component.numberText.alpha = 0;
+        card1Component.numberText.alpha = card2Component.numberText.alpha = 0;
         card1.TryGetComponent(out Button buttonComponent1);
-        buttonComponent1.animationTriggers.normalTrigger = "Pressed";
         card2.TryGetComponent(out Button buttonComponent2);
-        buttonComponent1.animationTriggers.normalTrigger = "Pressed";
+        buttonComponent1.animationTriggers.normalTrigger = buttonComponent1.animationTriggers.normalTrigger = "Pressed";
         card1 = card2 = null;
         card1Component = card2Component = null;
     }
@@ -269,7 +269,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Total clicks: " + totalClicks);
     }
 
-    private int CalculateScore()
+    public int CalculateScore()
     {
         int score = 0;
         score += 1000 - timer.GetTime();
@@ -319,12 +319,26 @@ public class GameManager : MonoBehaviour
         }
         return uniqueColumns.Count;
     }
-    public int GetPairs()
+
+    public int GetTotalPairs()
     {
         return totalPairs;
     }
-    public int GetClicks()
+    public int GetTotalClicks()
     {
         return totalClicks;
+    }
+    public int GetTotalTime()
+    {
+        return timer.GetTime();
+    }
+
+    public void OnApplicationQuit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
