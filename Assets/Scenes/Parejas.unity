@@ -3979,7 +3979,7 @@ GameObject:
   - component: {fileID: 643255322}
   - component: {fileID: 643255321}
   m_Layer: 5
-  m_Name: Image
+  m_Name: IconHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6677,9 +6677,8 @@ GameObject:
   - component: {fileID: 1118548685}
   - component: {fileID: 1118548688}
   - component: {fileID: 1118548687}
-  - component: {fileID: 1118548686}
   m_Layer: 5
-  m_Name: Timer
+  m_Name: PairsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6704,19 +6703,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1118548686
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1118548684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74444e06161e53844ad215bb6f71c392, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeText: {fileID: 1118548687}
 --- !u!114 &1118548687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6737,7 +6723,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0:00
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9fa5016cb7e534c0aa0c0adb2ecf9124, type: 2}
   m_sharedMaterial: {fileID: 6098576539282327867, guid: 9fa5016cb7e534c0aa0c0adb2ecf9124, type: 2}
@@ -8072,7 +8058,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -48, y: 18}
+  m_AnchoredPosition: {x: -48, y: -23}
   m_SizeDelta: {x: 256, y: 256}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1282973613
@@ -8506,7 +8492,7 @@ GameObject:
   - component: {fileID: 1337005098}
   - component: {fileID: 1337005097}
   m_Layer: 5
-  m_Name: Image
+  m_Name: IconPairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10104,8 +10090,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1585614089}
   - component: {fileID: 1585614090}
+  - component: {fileID: 1585614091}
   m_Layer: 5
-  m_Name: Statistics
+  m_Name: StatisticsUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10159,6 +10146,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1585614091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585614088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d20bcd03af21d44ae47e0092a253c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalClicksText: {fileID: 1924067645}
+  totalPairsText: {fileID: 1118548687}
 --- !u!1 &1602398976
 GameObject:
   m_ObjectHideFlags: 0
@@ -10697,7 +10698,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -10}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -198, y: 147}
+  m_AnchoredPosition: {x: -335, y: 147}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1800653691
@@ -11758,9 +11759,8 @@ GameObject:
   - component: {fileID: 1924067643}
   - component: {fileID: 1924067646}
   - component: {fileID: 1924067645}
-  - component: {fileID: 1924067644}
   m_Layer: 5
-  m_Name: Timer
+  m_Name: ClicksText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11785,19 +11785,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1924067644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924067642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74444e06161e53844ad215bb6f71c392, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeText: {fileID: 1924067645}
 --- !u!114 &1924067645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11818,7 +11805,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0:00
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9fa5016cb7e534c0aa0c0adb2ecf9124, type: 2}
   m_sharedMaterial: {fileID: 6098576539282327867, guid: 9fa5016cb7e534c0aa0c0adb2ecf9124, type: 2}

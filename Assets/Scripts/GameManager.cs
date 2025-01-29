@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 [System.Serializable]
 public class Block 
@@ -50,7 +51,8 @@ public class GameManager : MonoBehaviour
     private GamesResults gameResults;
     private int totalClicks;
     private int totalPairs;
-
+    public UnityEvent<int> UpdateClicksUI;
+    public UnityEvent<int> UpdatePairsUI;
     private void Awake()
     {
         if (Instance != null)
@@ -193,6 +195,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Par encontrado");
             totalPairs++;
+            UpdatePairsUI.Invoke(totalPairs);
             this.card1 = this.card2 = null;
             card1Component = card2Component = null;
 
@@ -262,6 +265,7 @@ public class GameManager : MonoBehaviour
     public void AddClick()
     {
         totalClicks++;
+        UpdateClicksUI.Invoke(totalClicks);
         Debug.Log("Total clicks: " + totalClicks);
     }
 
@@ -314,5 +318,13 @@ public class GameManager : MonoBehaviour
             uniqueColumns.Add(block.C);
         }
         return uniqueColumns.Count;
+    }
+    public int GetPairs()
+    {
+        return totalPairs;
+    }
+    public int GetClicks()
+    {
+        return totalClicks;
     }
 }
