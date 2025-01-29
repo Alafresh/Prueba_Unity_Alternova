@@ -1,54 +1,65 @@
-using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RankingUI : MonoBehaviour
 {
-    [SerializeField] Transform item;
-    [SerializeField] Transform content;
+    [SerializeField] List<Transform> itemList = new List<Transform>();
+    private PlayersResults playersResults;
+    private List<PlayerInfo> playersInfoList = new List<PlayerInfo>();
 
     private void Awake()
     {
-        item.gameObject.SetActive(false);
-
-        for (int i = 0; i < 10; i++)
-        {
-            Transform newItem = Instantiate(item, content);
-            newItem.gameObject.SetActive(true);
-
-            int rank = i + 1;
-            string rankString;
-
-            switch(rank)
-            {
-                case 1:
-                    rankString = "#1";
-                    break;
-                case 2:
-                    rankString = "#2";
-                    break;
-                case 3:
-                    rankString = "#3";
-                    break;
-                default:
-                    rankString = "#" + rank;
-                    break;
-            }
-
-            newItem.Find("Rank/RankText").GetComponent<TMPro.TextMeshProUGUI>().text = rankString;
-            //newItem.Find("Name").GetComponent<TMPro.TextMeshProUGUI>().text = "Player" + i;
-            //newItem.Find("Score").GetComponent<TMPro.TextMeshProUGUI>().text = Random.Range(0, 10000).ToString();
+        foreach (var item in itemList)
+        { 
+            item.gameObject.SetActive(false);
         }
     }
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
-        
+        ReadPlayerResults();
+        SortScores();
+        SetUpRanking();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ReadPlayerResults()
     {
-        
+        string pathPlayersResults = Application.dataPath + "/PlayersResults.json";
+        string existingJson;
+
+        if (File.Exists(pathPlayersResults))
+        {
+            try
+            {
+                existingJson = File.ReadAllText(pathPlayersResults);
+                playersResults = JsonUtility.FromJson<PlayersResults>(existingJson);
+                if (playersResults.players != null && playersResults != null)
+                {
+                    playersInfoList.AddRange(playersResults.players);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Error al cargar el archivo JSON: " + e.Message);
+                return;
+            }
+        }
+    }
+    private void SetUpRanking()
+    {
+        for(int i = 0; i < playersInfoList.Count; i++)
+        {
+            Debug.Log(playersInfoList[i].name + " " + playersInfoList[i].score);
+            Debug.Log(itemList[i]);
+            Debug.Log(playersInfoList[i].name);
+            itemList[i].Find("Name").GetComponent<TMPro.TextMeshProUGUI>().text = playersInfoList[i].name;
+            itemList[i].Find("ScoreTitle").GetComponent<TMPro.TextMeshProUGUI>().text = playersInfoList[i].score.ToString();
+            itemList[i].gameObject.SetActive(true);
+        }
+    }
+    private void SortScores()
+    {
+        playersInfoList.Sort((x, y) => y.score.CompareTo(x.score));
     }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 22470708}
   - component: {fileID: 11438532}
   - component: {fileID: 9567996}
+  - component: {fileID: 3500620271149372190}
   m_Layer: 5
   m_Name: RankingPrueba
   m_TagString: Untagged
@@ -74,6 +75,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3500620271149372190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 181762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af62b0c1f0ba28f4db452ab4294f0254, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemList:
+  - {fileID: 8218989593142626735}
+  - {fileID: 3257328142614978725}
+  - {fileID: 8385419976454231999}
+  - {fileID: 1688977959852543396}
+  - {fileID: 6869448542034999695}
+  - {fileID: 3165278367867557428}
+  - {fileID: 6207968108240208006}
+  - {fileID: 773739875873809708}
+  - {fileID: 1049711420684731570}
+  - {fileID: 6547155608400638629}
 --- !u!1 &123800510038592403
 GameObject:
   m_ObjectHideFlags: 0

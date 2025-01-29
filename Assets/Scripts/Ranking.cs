@@ -1,9 +1,10 @@
 using System;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
+using Ricimi;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class PlayerInfo
@@ -26,7 +27,9 @@ public class PlayersResults
 
 public class Ranking : MonoBehaviour
 {
-    [SerializeField] private InputField userName;
+
+    [SerializeField] private TMP_InputField userName;
+    [SerializeField] private PopupOpener popupOpener;
     private PlayersResults playersResults;
     private List<PlayerInfo> playersInfoList = new List<PlayerInfo>();
 
@@ -36,6 +39,7 @@ public class Ranking : MonoBehaviour
         int score = GameManager.Instance.CalculateScore();
         PlayerInfo playerInfo = new PlayerInfo(name, score);
         playersInfoList.Add(playerInfo);
+        CheckResultsToJson();
     }
     private void CheckResultsToJson()
     {
@@ -79,5 +83,12 @@ public class Ranking : MonoBehaviour
         string json = JsonUtility.ToJson(playersResults, true);
         string path = Application.dataPath + "/PlayersResults.json";
         File.WriteAllText(path, json);
+        SceneIdx();
+        //popupOpener.OpenPopup();
+    }
+
+    private void SceneIdx()
+    {
+        SceneManager.LoadScene("Leaderboard");
     }
 }
