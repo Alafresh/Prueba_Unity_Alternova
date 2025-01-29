@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     private int totalPairs;
     public UnityEvent<int> UpdateClicksUI;
     public UnityEvent<int> UpdatePairsUI;
-    List<Results> resultsList = new List<Results>();
+    private List<Results> resultsList = new List<Results>();
 
     private void Awake()
     {
@@ -314,7 +314,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SaveResultsToJson()
+    private void SaveResultsToJson()
     {
         resultsList.Add(new Results()
         {
