@@ -2007,7 +2007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5585583631189188578, guid: e3cc799eb64ca416dbc837b0036622ae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SubmitBtn
+      value: Submit
       objectReference: {fileID: 0}
     - target: {fileID: 5585583631189188578, guid: e3cc799eb64ca416dbc837b0036622ae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName

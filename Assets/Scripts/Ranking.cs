@@ -5,6 +5,8 @@ using UnityEngine;
 using TMPro;
 using Ricimi;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Threading.Tasks;
 
 [System.Serializable]
 public class PlayerInfo
@@ -33,15 +35,21 @@ public class Ranking : MonoBehaviour
     private PlayersResults playersResults;
     private List<PlayerInfo> playersInfoList = new List<PlayerInfo>();
 
-    public void SubmitBtn()
+    public void Submit()
+    {
+        StartCoroutine(SubmitCoroutine());
+    }
+
+    private IEnumerator SubmitCoroutine()
     {
         string name = userName.text;
         int score = GameManager.Instance.CalculateScore();
         PlayerInfo playerInfo = new PlayerInfo(name, score);
         playersInfoList.Add(playerInfo);
-        CheckResultsToJson();
+        Task task = CheckResultsToJson();
+        yield return new WaitUntil(() => task.IsCompleted);
     }
-    private void CheckResultsToJson()
+    private async Task CheckResultsToJson()
     {
         string pathPlayersResults = Application.dataPath + "/PlayersResults.json";
         string existingJson;
@@ -63,17 +71,17 @@ public class Ranking : MonoBehaviour
                 return;
             }
 
-            SaveResultsToJson();
+            await SaveResultsToJson();
 
             Debug.Log("Resultados guardados en: " + pathPlayersResults);
         }
         else
         {
-            SaveResultsToJson();
+            await SaveResultsToJson();
         }
     }
 
-    private void SaveResultsToJson()
+    private async Task SaveResultsToJson()
     {
         playersResults = new PlayersResults()
         {
@@ -82,13 +90,7 @@ public class Ranking : MonoBehaviour
 
         string json = JsonUtility.ToJson(playersResults, true);
         string path = Application.dataPath + "/PlayersResults.json";
-        File.WriteAllText(path, json);
-        SceneIdx();
-        //popupOpener.OpenPopup();
-    }
-
-    private void SceneIdx()
-    {
-        SceneManager.LoadScene("Leaderboard");
+        await File.WriteAllTextAsync(path, json);
+        popupOpener.OpenPopup();
     }
 }
