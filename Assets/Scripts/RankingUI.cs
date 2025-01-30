@@ -27,31 +27,30 @@ public class RankingUI : MonoBehaviour
 
     private void ReadPlayerResults()
     {
-        string pathPlayersResults = Application.dataPath + "/PlayersResults.json";
-        string existingJson;
+        string pathPlayersResults = "PlayersResults.json";
+        string existingJson = SaveSystem.Load(pathPlayersResults);
 
-        if (File.Exists(pathPlayersResults))
+        if (string.IsNullOrEmpty(existingJson))
         {
-            try
-            {
-                existingJson = File.ReadAllText(pathPlayersResults);
-                playersResults = JsonUtility.FromJson<PlayersResults>(existingJson);
-                if (playersResults.players != null && playersResults != null)
-                {
-                    playersInfoList.AddRange(playersResults.players);
-                }
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError("Error al cargar el archivo JSON: " + e.Message);
-                return;
-            }
+            Debug.LogError("Error al cargar el archivo JSON");
+            return;
+        }
+
+        playersResults = JsonUtility.FromJson<PlayersResults>(existingJson);
+        
+        if (playersResults.players != null && playersResults != null)
+        {
+            playersInfoList.AddRange(playersResults.players);
         }
     }
     private void SetUpRanking()
     {
         for(int i = 0; i < playersInfoList.Count; i++)
         {
+            if(i > itemList.Count)
+            {
+                break;
+            }
             Debug.Log(playersInfoList[i].name + " " + playersInfoList[i].score);
             Debug.Log(playersInfoList[i].name);
             itemList[i].Find("Name").GetComponent<TMPro.TextMeshProUGUI>().text = playersInfoList[i].name;

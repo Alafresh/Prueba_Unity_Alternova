@@ -9,7 +9,7 @@ public static class SaveSystem
 
     public static void Init()
     {
-        if (Directory.Exists(SAVE_FOLDER))
+        if (!Directory.Exists(SAVE_FOLDER))
         {
             Directory.CreateDirectory(SAVE_FOLDER);
         }
@@ -47,7 +47,7 @@ public static class SaveSystem
         }
         else
         {
-            if(saveName == "GameResults.json")
+            if(saveName == "GameResults.json" || saveName == "PlayersResults.json")
             {
                 return null;
             }
@@ -55,6 +55,27 @@ public static class SaveSystem
             return null;
         }
     }
+
+    public static void CreatePlayersResults(PlayersResults playersResults, List<PlayerInfo> playersInfoList)
+    {
+        playersResults = new PlayersResults()
+        {
+            players = playersInfoList.ToArray()
+        };
+
+        string json = JsonUtility.ToJson(playersResults, true);
+        Save("PlayersResults.json", json);
+    }
+
+    public static PlayersResults AddPlayerResult(List<PlayerInfo> playersInfoList, PlayersResults playersResults)
+    {
+        playersResults = new PlayersResults()
+        {
+            players = playersInfoList.ToArray()
+        };
+        return playersResults;
+    }
+
     public static void CreateGameResults()
     {
         List<Results> resultsList = new List<Results>();

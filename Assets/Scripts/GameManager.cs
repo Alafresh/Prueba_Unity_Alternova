@@ -250,16 +250,16 @@ public class GameManager : MonoBehaviour
     private void CheckResultsToJson()
     {
         string pathGame = "GameResults.json";
-        string saveString;
+        string existingJson = SaveSystem.Load(pathGame);
 
-        
-        if (SaveSystem.Load(pathGame) == null)
+
+        if (string.IsNullOrEmpty(existingJson))
         {
             SaveSystem.CreateGameResults();
             return;
         }
-        saveString = SaveSystem.Load(pathGame);
-        gameResults = JsonUtility.FromJson<GamesResults>(saveString);
+        existingJson = SaveSystem.Load(pathGame);
+        gameResults = JsonUtility.FromJson<GamesResults>(existingJson);
         
         if (gameResults.results != null && gameResults != null)
         {
@@ -270,7 +270,7 @@ public class GameManager : MonoBehaviour
 
     private void SaveResultsToJson()
     {
-        SaveSystem.AddGameResult(resultsList, gameResults);
+        gameResults = SaveSystem.AddGameResult(resultsList, gameResults);
         string json = JsonUtility.ToJson(gameResults, true);
         SaveSystem.Save("GameResults.json", json);
     }

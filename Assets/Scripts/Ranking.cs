@@ -32,65 +32,55 @@ public class Ranking : MonoBehaviour
 
     [SerializeField] private TMP_InputField userName;
     [SerializeField] private PopupOpener popupOpener;
+    [SerializeField] private Popup popup;
+    [SerializeField] private GameObject warningPanel;
     private PlayersResults playersResults;
     private List<PlayerInfo> playersInfoList = new List<PlayerInfo>();
 
     public void Submit()
     {
-        StartCoroutine(SubmitCoroutine());
-    }
-
-    private IEnumerator SubmitCoroutine()
-    {
         string name = userName.text;
+        if(name == "")
+        {
+            warningPanel.SetActive(true);
+            return;
+        }
         int score = GameManager.Instance.CalculateScore();
         PlayerInfo playerInfo = new PlayerInfo(name, score);
         playersInfoList.Add(playerInfo);
-        Task task = CheckResultsToJson();
-        yield return new WaitUntil(() => task.IsCompleted);
-    }
-    private async Task CheckResultsToJson()
-    {
-        string pathPlayersResults = Application.dataPath + "PlayersResults.json";
-        string existingJson;
-
-        if (File.Exists(pathPlayersResults))
-        {
-            try
-            {
-                existingJson = File.ReadAllText(pathPlayersResults);
-                playersResults = JsonUtility.FromJson<PlayersResults>(existingJson);
-                if (playersResults.players != null && playersResults != null)
-                {
-                    playersInfoList.AddRange(playersResults.players);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Error al cargar el archivo JSON: " + e.Message);
-                return;
-            }
-
-            await SaveResultsToJson();
-
-            Debug.Log("Resultados guardados en: " + pathPlayersResults);
-        }
-        else
-        {
-            await SaveResultsToJson();
-        }
+        CheckResultsToJson();
     }
 
-    private async Task SaveResultsToJson()
+    private void CheckResultsToJson()
     {
-        playersResults = new PlayersResults()
-        {
-            players = playersInfoList.ToArray()
-        };
+        string pathPlayersResults = "PlayersResults.json";
+        string existingJson = SaveSystem.Load(pathPlayersResults);
 
+        if (string.IsNullOrEmpty(existingJson))
+        {
+            SaveSystem.CreatePlayersResults(playersResults, playersInfoList);
+            return;
+        }
+
+        playersResults = JsonUtility.FromJson<PlayersResults>(existingJson);
+
+        if (playersResults.players != null && playersResults != null)
+        {
+            playersInfoList.AddRange(playersResults.players);
+        }
+        SaveResultsToJson();
+    }
+
+    private void SaveResultsToJson()
+    {
+        playersResults = SaveSystem.AddPlayerResult(playersInfoList, playersResults);
         string json = JsonUtility.ToJson(playersResults, true);
-        string path = Application.dataPath + "/PlayersResults.json";
-        await File.WriteAllTextAsync(path, json);
+        SaveSystem.Save("PlayersResults.json", json);
+        popup.Close();
         popupOpener.OpenPopup();
+    }
+    public void RestartScene()
+    {
+        GameManager.Instance.RestartScene();
     }
 }
