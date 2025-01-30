@@ -7,6 +7,7 @@ using Ricimi;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class PlayerInfo
@@ -34,6 +35,7 @@ public class Ranking : MonoBehaviour
     [SerializeField] private PopupOpener popupOpener;
     [SerializeField] private Popup popup;
     [SerializeField] private GameObject warningPanel;
+    [SerializeField] private Button submitButton;
     private PlayersResults playersResults;
     private List<PlayerInfo> playersInfoList = new List<PlayerInfo>();
 
@@ -45,6 +47,7 @@ public class Ranking : MonoBehaviour
             warningPanel.SetActive(true);
             return;
         }
+        submitButton.interactable = false;
         int score = GameManager.Instance.CalculateScore();
         PlayerInfo playerInfo = new PlayerInfo(name, score);
         playersInfoList.Add(playerInfo);

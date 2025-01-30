@@ -84,6 +84,11 @@ public class GameManager : MonoBehaviour
             Debug.LogError("El número de bloques debe ser par.");
             return;
         }
+        if(!HasValidPairs(blocksData.blocks))
+        {
+            Debug.LogError("No hay pares validos.");
+            return;
+        }
         numberInRange = GetNumbersInRange(blocksData.blocks);
         if (!numberInRange)
         {
@@ -102,9 +107,13 @@ public class GameManager : MonoBehaviour
             Debug.LogError("El número de columnas debe estar entre 2 y 8.");
             return;
         }
-        if (numberRows < 5)
+        if (numberRows < 6)
         {
-            gridLayoutGroup.cellSize = new Vector2(170, 170);
+            gridLayoutGroup.cellSize = new Vector2(150, 150);
+        }
+        if (numberRows < 6 && numberColumns < 7)
+        {
+            gridLayoutGroup.cellSize = new Vector2(200, 200);
         }
         gridLayoutGroup.constraintCount = numberRows;
 
@@ -322,5 +331,27 @@ public class GameManager : MonoBehaviour
     {
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.name);
+    }
+
+    bool HasValidPairs(Block[] blocks)
+    {
+        Dictionary<int, int> countMap = new Dictionary<int, int>();
+
+        foreach (var block in blocks)
+        {
+            if (countMap.ContainsKey(block.number))
+                countMap[block.number]++;
+            else
+                countMap[block.number] = 1;
+        }
+
+        foreach (var count in countMap.Values)
+        {
+            if (count != 2)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -13010,6 +13010,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PairCard
       objectReference: {fileID: 0}
+    - target: {fileID: 4782252865934292864, guid: b417c62d505c98246b79fa6749b1c3ef, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6588297818987824726, guid: b417c62d505c98246b79fa6749b1c3ef, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -99,7 +99,7 @@ MonoBehaviour:
   - {fileID: 773739875873809708}
   - {fileID: 1049711420684731570}
   - {fileID: 6547155608400638629}
-  particleSystem: {fileID: 0}
+  particleSystem: {fileID: 2055300226652238932}
 --- !u!1 &123800510038592403
 GameObject:
   m_ObjectHideFlags: 0

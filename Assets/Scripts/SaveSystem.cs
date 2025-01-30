@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Threading.Tasks;
 
 public static class SaveSystem
 {
@@ -21,6 +22,19 @@ public static class SaveSystem
         try
         {
             File.WriteAllText(path, jsonContent);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error saving file: " + e.Message);
+        }
+    }
+
+    public static async Task SaveAsync(string saveName, string jsonContent)
+    {
+        string path = SAVE_FOLDER + saveName;
+        try
+        {
+            await File.WriteAllTextAsync(path, jsonContent);
         }
         catch (System.Exception e)
         {

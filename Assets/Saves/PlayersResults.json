@@ -1,16 +1,16 @@
 {
     "players": [
         {
-            "name": "Juanchito",
-            "score": 7958
+            "name": "Adan",
+            "score": 1
         },
         {
-            "name": "Jesus",
-            "score": 7964
+            "name": "Carlos",
+            "score": 2
         },
         {
-            "name": "Pedrito",
-            "score": 7965
+            "name": "Juanito",
+            "score": 3
         }
     ]
 }
