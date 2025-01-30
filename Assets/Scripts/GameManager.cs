@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Block 
@@ -40,6 +41,7 @@ public class GamesResults
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    
     [SerializeField] private Timer timer;
     [SerializeField] GridLayoutGroup gridLayoutGroup;
     [SerializeField] private Transform cardPrefab;
@@ -65,102 +67,67 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        
+        SaveSystem.Init();
     }
 
     void Start()
     {
-        string path = Path.Combine(Application.streamingAssetsPath, "Bloques.json");
-        string jsonContent;
-        //Transform gameCard;
+        string path = "Blocks.json";
         int numberRows;
         int numberColumns;
         bool numberInRange;
+        string saveString = SaveSystem.Load(path);
+        blocksData = JsonUtility.FromJson<BlocksData>(saveString);
 
-        if (File.Exists(path))
+        if (blocksData.blocks.Length % 2 != 0)
         {
-            try
-            {
-                jsonContent = File.ReadAllText(path);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Error al cargar el archivo JSON: " + e.Message);
-                return;
-            }
-            
-            Debug.Log("Archivo JSON cargado correctamente:\n" + jsonContent);
-
-            blocksData = JsonUtility.FromJson<BlocksData>(jsonContent);
-
-            if (blocksData.blocks.Length % 2 != 0)
-            {
-                Debug.LogError("El número de bloques debe ser par.");
-                return;
-            }
-            numberInRange = GetNumbersInRange(blocksData.blocks);
-            if (!numberInRange)
-            {
-                Debug.LogError("El valor de los bloques debe estar entre 0 y 9.");
-                return;
-            }
-            numberRows = GetRowCount(blocksData.blocks);
-            if(numberRows < 2 || numberRows > 8)
-            {
-                Debug.LogError("El número de filas debe estar entre 2 y 8.");
-                return;
-            }
-            numberColumns = GetColumnCount(blocksData.blocks);
-            if (numberColumns < 2 || numberColumns > 8)
-            {
-                Debug.LogError("El número de columnas debe estar entre 2 y 8.");
-                return;
-            }
-            if (numberRows < 5)
-            {
-                gridLayoutGroup.cellSize = new Vector2(170, 170);
-            }
-            gridLayoutGroup.constraintCount = numberRows;
-
-            Array.Sort(blocksData.blocks, (a, b) =>
-            {
-                if (a.R == b.R)
-                    return a.C.CompareTo(b.C);
-                return a.R.CompareTo(b.R); 
-            });
-
-            foreach(Card card in cardPool)
-            {
-                card.gameObject.SetActive(false);
-            }
-
-            for (int i = 0; i < blocksData.blocks.Length; i++)
-            {
-                cardPool[i].cardId = blocksData.blocks[i].number;
-                cardPool[i].row = blocksData.blocks[i].R;
-                cardPool[i].column = blocksData.blocks[i].C;
-                cardPool[i].numberText.alpha = 0;
-                cardPool[i].numberText.text = blocksData.blocks[i].number.ToString();
-                cardPool[i].gameObject.SetActive(true);
-            }
-
-            //foreach (var block in blocksData.blocks)
-            //{
-            //    gameCard = Instantiate(cardPrefab, gridLayoutGroup.transform);
-            //    if (gameCard.TryGetComponent(out Card cardComponent))
-            //    {
-            //        cardComponent.cardId = block.number;
-            //        cardComponent.column = block.C;
-            //        cardComponent.row = block.R;
-            //        cardComponent.numberText.alpha = 0;
-            //        cardComponent.numberText.text = block.number.ToString();
-            //    }
-            //}
-        }
-        else
-        {
-            Debug.LogError("El archivo JSON no se encontró en la ruta: " + path);
+            Debug.LogError("El número de bloques debe ser par.");
             return;
+        }
+        numberInRange = GetNumbersInRange(blocksData.blocks);
+        if (!numberInRange)
+        {
+            Debug.LogError("El valor de los bloques debe estar entre 0 y 9.");
+            return;
+        }
+        numberRows = GetRowCount(blocksData.blocks);
+        if(numberRows < 2 || numberRows > 8)
+        {
+            Debug.LogError("El número de filas debe estar entre 2 y 8.");
+            return;
+        }
+        numberColumns = GetColumnCount(blocksData.blocks);
+        if (numberColumns < 2 || numberColumns > 8)
+        {
+            Debug.LogError("El número de columnas debe estar entre 2 y 8.");
+            return;
+        }
+        if (numberRows < 5)
+        {
+            gridLayoutGroup.cellSize = new Vector2(170, 170);
+        }
+        gridLayoutGroup.constraintCount = numberRows;
+
+        Array.Sort(blocksData.blocks, (a, b) =>
+        {
+            if (a.R == b.R)
+                return a.C.CompareTo(b.C);
+                return a.R.CompareTo(b.R); 
+        });
+
+        foreach(Card card in cardPool)
+        {
+            card.gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < blocksData.blocks.Length; i++)  
+        {
+            cardPool[i].cardId = blocksData.blocks[i].number;
+            cardPool[i].row = blocksData.blocks[i].R;
+            cardPool[i].column = blocksData.blocks[i].C;
+            cardPool[i].numberText.alpha = 0;
+            cardPool[i].numberText.text = blocksData.blocks[i].number.ToString();
+            cardPool[i].gameObject.SetActive(true);
         }
     }
 
@@ -282,56 +249,30 @@ public class GameManager : MonoBehaviour
 
     private void CheckResultsToJson()
     {
-        string pathGame =  Application.dataPath + "/GameResults.json";
-        string existingJson;
+        string pathGame = "GameResults.json";
+        string saveString;
 
         
-
-        if (File.Exists(pathGame))
+        if (SaveSystem.Load(pathGame) == null)
         {
-            try
-            {
-                existingJson = File.ReadAllText(pathGame);
-                gameResults = JsonUtility.FromJson<GamesResults>(existingJson);
-                if (gameResults.results != null && gameResults != null)
-                {
-                    resultsList.AddRange(gameResults.results);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Error al cargar el archivo JSON: " + e.Message);
-                return;
-            }
-
-            SaveResultsToJson();
-
-            Debug.Log("Resultados guardados en: " + pathGame);
+            SaveSystem.CreateGameResults();
+            return;
         }
-        else
+        saveString = SaveSystem.Load(pathGame);
+        gameResults = JsonUtility.FromJson<GamesResults>(saveString);
+        
+        if (gameResults.results != null && gameResults != null)
         {
-            SaveResultsToJson();
+            resultsList.AddRange(gameResults.results);
         }
+        SaveResultsToJson();
     }
 
     private void SaveResultsToJson()
     {
-        resultsList.Add(new Results()
-        {
-            total_clicks = totalClicks,
-            total_time = timer.GetTime(),
-            pairs = totalPairs,
-            score = CalculateScore()
-        });
-
-        gameResults = new GamesResults()
-        {
-            results = resultsList.ToArray()
-        };
-
+        SaveSystem.AddGameResult(resultsList, gameResults);
         string json = JsonUtility.ToJson(gameResults, true);
-        string path = Application.dataPath + "/GameResults.json";
-        File.WriteAllText(path, json);
+        SaveSystem.Save("GameResults.json", json);
     }
 
     private int GetRowCount(Block[] blocks)
@@ -376,5 +317,10 @@ public class GameManager : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+    public void RestartScene()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
     }
 }

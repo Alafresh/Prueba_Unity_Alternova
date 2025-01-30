@@ -51,7 +51,7 @@ public class Ranking : MonoBehaviour
     }
     private async Task CheckResultsToJson()
     {
-        string pathPlayersResults = Application.dataPath + "/PlayersResults.json";
+        string pathPlayersResults = Application.dataPath + "PlayersResults.json";
         string existingJson;
 
         if (File.Exists(pathPlayersResults))

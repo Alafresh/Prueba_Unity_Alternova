@@ -1,6 +1,22 @@
 {
     "players": [
         {
+            "name": "Pepe",
+            "score": 7979
+        },
+        {
+            "name": "Willy",
+            "score": 7962
+        },
+        {
+            "name": "Guz",
+            "score": 7965
+        },
+        {
+            "name": "Fidel",
+            "score": 7968
+        },
+        {
             "name": "Stiven",
             "score": 7976
         },

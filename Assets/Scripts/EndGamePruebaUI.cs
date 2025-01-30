@@ -17,7 +17,6 @@ public class EndGamePruebaUI : MonoBehaviour
     }
     public void RestartScene()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        GameManager.Instance.RestartScene();
     }
 }
