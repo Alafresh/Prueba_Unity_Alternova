@@ -35,6 +35,12 @@
             "total_time": 25,
             "pairs": 6,
             "score": 7946
+        },
+        {
+            "total_clicks": 19,
+            "total_time": 12,
+            "pairs": 6,
+            "score": 7969
         }
     ]
 }
