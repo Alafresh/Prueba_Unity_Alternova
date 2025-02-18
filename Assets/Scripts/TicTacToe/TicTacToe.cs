@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class TicTacToe : MonoBehaviour
 {
     public Button[] buttons;
     private string currentPlayer = "X";
     private string[,] board = new string[3, 3];
+    private Queue<int>[] rowQueues = new Queue<int>[3];
+    private Queue<int>[] colQueues = new Queue<int>[3];
     public Image[] turn;
+    public AudioSource AudioSource;
+    public AudioClip[] AudioClip;
 
     void Start()
     {
@@ -14,6 +19,12 @@ public class TicTacToe : MonoBehaviour
         {
             int index = i;
             buttons[i].onClick.AddListener(() => MakeMove(index));
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            rowQueues[i] = new Queue<int>();
+            colQueues[i] = new Queue<int>();
         }
     }
 
@@ -25,6 +36,8 @@ public class TicTacToe : MonoBehaviour
         if (string.IsNullOrEmpty(board[row, col]))
         {
             board[row, col] = currentPlayer;
+            rowQueues[row].Enqueue(index);
+            colQueues[col].Enqueue(index);
             ActivateImage(buttons[index], currentPlayer);
 
             if (CheckWin())
@@ -36,16 +49,20 @@ public class TicTacToe : MonoBehaviour
 
             ShiftRowOrColumn(row, col);
             currentPlayer = (currentPlayer == "X") ? "O" : "X";
+
             if(currentPlayer == "X")
             {
                 turn[0].enabled = true;
                 turn[1].enabled = false;
+                AudioSource.PlayOneShot(AudioClip[0]);
             }
             else
             {
                 turn[0].enabled = false;
                 turn[1].enabled = true;
+                AudioSource.PlayOneShot(AudioClip[1]);
             }
+
         }
     }
 
@@ -61,39 +78,32 @@ public class TicTacToe : MonoBehaviour
         }
     }
 
+    void Desactivate(Button button)
+    {
+        Transform dogImage = button.transform.Find("Dog");
+        Transform catImage = button.transform.Find("Cat");
+        if (dogImage != null && catImage != null)
+        {
+            dogImage.gameObject.SetActive(false);
+            catImage.gameObject.SetActive(false);
+        }
+    }
+
     void ShiftRowOrColumn(int row, int col)
     {
-        if (IsRowFull(row))
+        if (rowQueues[row].Count == 3)
         {
-            for (int i = 0; i < 2; i++)
-            {
-                board[row, i] = board[row, i + 1];
-                ActivateImage(buttons[row * 3 + i], board[row, i] ?? "");
-            }
-            board[row, 2] = null;
-            ActivateImage(buttons[row * 3 + 2], "");
+            int firstIndex = rowQueues[row].Dequeue();
+            board[firstIndex / 3, firstIndex % 3] = null;
+            Desactivate(buttons[firstIndex]);
         }
 
-        if (IsColumnFull(col))
+        if (colQueues[col].Count == 3)
         {
-            for (int i = 0; i < 2; i++)
-            {
-                board[i, col] = board[i + 1, col];
-                ActivateImage(buttons[i * 3 + col], board[i, col] ?? "");
-            }
-            board[2, col] = null;
-            ActivateImage(buttons[2 * 3 + col], "");
+            int firstIndex = colQueues[col].Dequeue();
+            board[firstIndex / 3, firstIndex % 3] = null;
+            Desactivate(buttons[firstIndex]);
         }
-    }
-
-    bool IsRowFull(int row)
-    {
-        return !string.IsNullOrEmpty(board[row, 0]) && !string.IsNullOrEmpty(board[row, 1]) && !string.IsNullOrEmpty(board[row, 2]);
-    }
-
-    bool IsColumnFull(int col)
-    {
-        return !string.IsNullOrEmpty(board[0, col]) && !string.IsNullOrEmpty(board[1, col]) && !string.IsNullOrEmpty(board[2, col]);
     }
 
     bool CheckWin()
@@ -118,6 +128,8 @@ public class TicTacToe : MonoBehaviour
                 board[i, j] = null;
                 ActivateImage(buttons[i * 3 + j], "");
             }
+            rowQueues[i].Clear();
+            colQueues[i].Clear();
         }
         currentPlayer = "X";
     }
