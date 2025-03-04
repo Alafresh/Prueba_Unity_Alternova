@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public static class SaveSystem
 {
-    public static readonly string SAVE_FOLDER = Application.dataPath + "/Saves/";
+    public static readonly string SAVE_FOLDER = Application.streamingAssetsPath + "/";
 
     public static void Init()
     {
@@ -44,6 +44,7 @@ public static class SaveSystem
 
     public static string Load(string saveName)
     {
+        Debug.Log("Loading file: " + SAVE_FOLDER + saveName);
         string path = SAVE_FOLDER + saveName;
         string jsonContent;
         if (File.Exists(path))

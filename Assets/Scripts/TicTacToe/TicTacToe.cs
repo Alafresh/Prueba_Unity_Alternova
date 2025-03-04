@@ -70,7 +70,7 @@ public class TicTacToeLimited : MonoBehaviour
                 turn[1].enabled = true;
                 audioSource.PlayOneShot(audioClip[0]);
             }
-            Handheld.Vibrate();
+            //Handheld.Vibrate();
         }
     }
 
