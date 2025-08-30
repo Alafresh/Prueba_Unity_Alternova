@@ -1,6 +1,14 @@
 {
     "players": [
         {
+            "name": "Pepe",
+            "score": 7965
+        },
+        {
+            "name": "Juan",
+            "score": 7951
+        },
+        {
             "name": "Pedritoo",
             "score": 7956
         },
