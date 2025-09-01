@@ -1392,6 +1392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b5f28571cfdbf4cbe2abb239ade0e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  authBtn: {fileID: 1266602749}
   SignUpObject: {fileID: 1121659979}
   LogInObject: {fileID: 878144302}
   usernameSignUp: {fileID: 1235555762}
@@ -2337,7 +2338,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:

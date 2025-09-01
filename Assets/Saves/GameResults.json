@@ -89,6 +89,78 @@
             "total_time": 19,
             "pairs": 6,
             "score": 7959
+        },
+        {
+            "total_clicks": 26,
+            "total_time": 29,
+            "pairs": 6,
+            "score": 7945
+        },
+        {
+            "total_clicks": 18,
+            "total_time": 19,
+            "pairs": 6,
+            "score": 7963
+        },
+        {
+            "total_clicks": 21,
+            "total_time": 17,
+            "pairs": 6,
+            "score": 7962
+        },
+        {
+            "total_clicks": 24,
+            "total_time": 21,
+            "pairs": 6,
+            "score": 7955
+        },
+        {
+            "total_clicks": 14,
+            "total_time": 33,
+            "pairs": 6,
+            "score": 7953
+        },
+        {
+            "total_clicks": 14,
+            "total_time": 10,
+            "pairs": 6,
+            "score": 7976
+        },
+        {
+            "total_clicks": 18,
+            "total_time": 13,
+            "pairs": 6,
+            "score": 7969
+        },
+        {
+            "total_clicks": 20,
+            "total_time": 15,
+            "pairs": 6,
+            "score": 7965
+        },
+        {
+            "total_clicks": 18,
+            "total_time": 13,
+            "pairs": 6,
+            "score": 7969
+        },
+        {
+            "total_clicks": 23,
+            "total_time": 18,
+            "pairs": 6,
+            "score": 7959
+        },
+        {
+            "total_clicks": 16,
+            "total_time": 12,
+            "pairs": 6,
+            "score": 7972
+        },
+        {
+            "total_clicks": 26,
+            "total_time": 18,
+            "pairs": 6,
+            "score": 7956
         }
     ]
 }

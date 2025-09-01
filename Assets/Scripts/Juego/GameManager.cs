@@ -244,7 +244,6 @@ public class GameManager : MonoBehaviour
     {
         totalClicks++;
         UpdateClicksUI.Invoke(totalClicks);
-        Debug.Log("Total clicks: " + totalClicks);
     }
 
     public int CalculateScore()

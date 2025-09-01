@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 [Serializable]
 public class UserData_AuthRequest {
@@ -17,7 +18,6 @@ class AuthResponse {
 }
 [Serializable]
 class User {
-    public string _id;
     public string username;
     public UserData data;
 }
@@ -30,6 +30,7 @@ public class AuthHandler : MonoBehaviour {
 
     private const string BASE_URI = "https://sid-restapi.onrender.com/api/";
 
+    [SerializeField] private Button authBtn;
     [SerializeField] private GameObject SignUpObject;
     [SerializeField] private GameObject LogInObject;
     [SerializeField] private TMP_InputField usernameSignUp;
@@ -42,10 +43,16 @@ public class AuthHandler : MonoBehaviour {
 
     private bool _flag = false;
     private readonly WaitForSeconds _waiting = new(3);
-    private AuthResponse _response;
-    private User _user;
+    private static AuthResponse _response;
+    private static User _user;
 
     public static AuthHandler Instance { get; private set; }
+
+    public void SignUpBtn() => StartCoroutine(SignUp());
+    public void LogInBtn() => StartCoroutine(LogIn());
+    public void UpdateScore(int score) => StartCoroutine(UpdateData(score));
+    public void LeaderBoard() => StartCoroutine(GetScoreBoard());
+    public string GetUsername() => _response.usuario.username.ToString();
 
     private void Awake() {
         if (Instance != null) {
@@ -70,10 +77,7 @@ public class AuthHandler : MonoBehaviour {
         SignUpObject.SetActive(_flag);
         LogInObject.SetActive(!_flag);
     }
-    public void SignUpBtn() => StartCoroutine(SignUp());
-    public void LogInBtn() => StartCoroutine(LogIn());
-    public void UpdateScore(int score) => StartCoroutine(UpdateData(score));
-    
+
     private IEnumerator SignUp() {
         string jsonData = JsonUtility.ToJson(new UserData_AuthRequest { 
             username = usernameSignUp.text, 
@@ -120,32 +124,38 @@ public class AuthHandler : MonoBehaviour {
         yield return www.SendWebRequest();
         if (www.result == UnityWebRequest.Result.Success) {
             _response = JsonUtility.FromJson<AuthResponse>(www.downloadHandler.text);
+            
             msgGetProfile.text = "Login successful";
             yield return _waiting;
             StartCoroutine(LoadAsyncScene());
         } else {
             msgGetProfile.text = www.downloadHandler.text;
+            authBtn.interactable = true;
         }
     }
     private IEnumerator UpdateData(int score) {
         _user = new User {
-            username = _user.username,
+            username = _response.usuario.username,
             data = new UserData {
                 score = score
             }
         };
         string jsonData = JsonUtility.ToJson(_user);
+        Debug.Log(jsonData);
         string url = BASE_URI + "usuarios";
-        using UnityWebRequest www = UnityWebRequest.Put(url, jsonData);
+        using UnityWebRequest www = UnityWebRequest.Post(url, jsonData, "application/json");
         www.method = "PATCH";
-        www.SetRequestHeader("x-token", _response.token);
+        www.SetRequestHeader("x-token", PlayerPrefs.GetString("token"));
         yield return www.SendWebRequest();
         if (www.result == UnityWebRequest.Result.Success) {
             Debug.Log("Se actualizo los datos");
             yield return _waiting;
         } else {
-            Debug.LogError("No se pudo actualizar el score");
+            Debug.LogError(www.downloadHandler.text);
         }
+    }
+    private IEnumerator GetScoreBoard() {
+        yield return _waiting;
     }
     private IEnumerator LoadAsyncScene() {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
@@ -153,5 +163,4 @@ public class AuthHandler : MonoBehaviour {
             yield return null;
         }
     }
-    public string GetUsername() => _response.usuario.username.ToString();
 }

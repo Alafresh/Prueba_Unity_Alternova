@@ -51,8 +51,6 @@ public class RankingUI : MonoBehaviour
             {
                 break;
             }
-            Debug.Log(playersInfoList[i].name + " " + playersInfoList[i].score);
-            Debug.Log(playersInfoList[i].name);
             itemList[i].Find("Name").GetComponent<TMPro.TextMeshProUGUI>().text = playersInfoList[i].name;
             itemList[i].Find("ScoreTitle").GetComponent<TMPro.TextMeshProUGUI>().text = playersInfoList[i].score.ToString();
             itemList[i].gameObject.SetActive(true);
