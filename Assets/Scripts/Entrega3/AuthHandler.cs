@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class UserData_AuthRequest {
@@ -36,10 +36,19 @@ public class AuthHandler : MonoBehaviour {
     [SerializeField] private TMP_InputField password;
     [SerializeField] private TextMeshProUGUI msgSignUp;
     [SerializeField] private TextMeshProUGUI msgLogIn;
+    [SerializeField] private TextMeshProUGUI msgGetProfile;
 
 
     private bool flag = false;
-    private WaitForSeconds waiting = new WaitForSeconds(3);
+    private readonly WaitForSeconds waiting = new(3);
+
+    private void Start() {
+        if (!string.IsNullOrEmpty(PlayerPrefs.GetString("token")) && !string.IsNullOrEmpty(PlayerPrefs.GetString("username"))) {
+            StartCoroutine(GetProfile());
+        } else {
+            msgGetProfile.text = "No token found, please log in.";
+        }
+    }
 
     public void ChangeWindow() {
         flag = !flag;
@@ -80,7 +89,8 @@ public class AuthHandler : MonoBehaviour {
             PlayerPrefs.SetString("token", response.token);
             PlayerPrefs.SetString("username", response.usuario.username);
             msgLogIn.text = "Login successful";
-
+            yield return waiting;
+            StartCoroutine(LoadAsyncScene());
         } else {
             msgLogIn.text = www.downloadHandler.text;
         }
@@ -92,9 +102,17 @@ public class AuthHandler : MonoBehaviour {
         www.SetRequestHeader("x-token", PlayerPrefs.GetString("token"));
         yield return www.SendWebRequest();
         if (www.result == UnityWebRequest.Result.Success) {
-
+            msgGetProfile.text = "Login successful";
+            yield return waiting;
+            StartCoroutine(LoadAsyncScene());
         } else {
-        
+            msgGetProfile.text = www.downloadHandler.text;
+        }
+    }
+    IEnumerator LoadAsyncScene() {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
+        while (!asyncLoad.isDone) {
+            yield return null;
         }
     }
 }
