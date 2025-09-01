@@ -95,7 +95,6 @@ public class AuthHandler : MonoBehaviour {
         if (www.result == UnityWebRequest.Result.Success) {
             msgSignUp.text = "Sign Up successful";
             yield return _waiting;
-            ChangeWindow();
         } else {
             msgSignUp.text = www.downloadHandler.text;
         }
