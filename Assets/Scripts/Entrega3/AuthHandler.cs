@@ -32,15 +32,30 @@ public class AuthHandler : MonoBehaviour {
 
     [SerializeField] private GameObject SignUpObject;
     [SerializeField] private GameObject LogInObject;
-    [SerializeField] private TMP_InputField username;
-    [SerializeField] private TMP_InputField password;
+    [SerializeField] private TMP_InputField usernameSignUp;
+    [SerializeField] private TMP_InputField usernameLogin;
+    [SerializeField] private TMP_InputField passwordSignUp;
+    [SerializeField] private TMP_InputField passwordLogin;
     [SerializeField] private TextMeshProUGUI msgSignUp;
     [SerializeField] private TextMeshProUGUI msgLogIn;
     [SerializeField] private TextMeshProUGUI msgGetProfile;
 
+    private bool _flag = false;
+    private readonly WaitForSeconds _waiting = new(3);
+    private AuthResponse _response;
+    private User _user;
 
-    private bool flag = false;
-    private readonly WaitForSeconds waiting = new(3);
+    public static AuthHandler Instance { get; private set; }
+
+    private void Awake() {
+        if (Instance != null) {
+            Debug.LogError("There is mora than one AuthHandler");
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Start() {
         if (!string.IsNullOrEmpty(PlayerPrefs.GetString("token")) && !string.IsNullOrEmpty(PlayerPrefs.GetString("username"))) {
@@ -51,26 +66,25 @@ public class AuthHandler : MonoBehaviour {
     }
 
     public void ChangeWindow() {
-        flag = !flag;
-        SignUpObject.SetActive(flag);
-        LogInObject.SetActive(!flag);
+        _flag = !_flag;
+        SignUpObject.SetActive(_flag);
+        LogInObject.SetActive(!_flag);
     }
-    public void SignUpBtn() {
-        StartCoroutine(SignUp());
-    }
-
-    public void LogInBtn() {
-        StartCoroutine(LogIn());
-    }
-
+    public void SignUpBtn() => StartCoroutine(SignUp());
+    public void LogInBtn() => StartCoroutine(LogIn());
+    public void UpdateScore(int score) => StartCoroutine(UpdateData(score));
+    
     private IEnumerator SignUp() {
-        string jsonData = JsonUtility.ToJson(new UserData_AuthRequest { username = username.text, password = password.text });
+        string jsonData = JsonUtility.ToJson(new UserData_AuthRequest { 
+            username = usernameSignUp.text, 
+            password = passwordSignUp.text 
+        });
         string url = BASE_URI + "usuarios";
         using UnityWebRequest www = UnityWebRequest.Post(url, jsonData, "application/json");
         yield return www.SendWebRequest();
         if (www.result == UnityWebRequest.Result.Success) {
             msgSignUp.text = "Sign Up successful";
-            yield return waiting;
+            yield return _waiting;
             ChangeWindow();
         } else {
             msgSignUp.text = www.downloadHandler.text;
@@ -78,20 +92,23 @@ public class AuthHandler : MonoBehaviour {
     }
 
     private IEnumerator LogIn() {
-        string jsonData = JsonUtility.ToJson(new UserData_AuthRequest { username = username.text, password = password.text });
+        string jsonData = JsonUtility.ToJson(new UserData_AuthRequest { 
+            username = usernameLogin.text, 
+            password = passwordLogin.text 
+        });
         string url = BASE_URI + "auth/login";
         using UnityWebRequest www = UnityWebRequest.Post(url, jsonData, "application/json");
         yield return www.SendWebRequest();
         if (www.result == UnityWebRequest.Result.Success) {
             Debug.Log("Login successful");
-            AuthResponse response = JsonUtility.FromJson<AuthResponse>(www.downloadHandler.text);
-
-            PlayerPrefs.SetString("token", response.token);
-            PlayerPrefs.SetString("username", response.usuario.username);
+            _response = JsonUtility.FromJson<AuthResponse>(www.downloadHandler.text);
+            PlayerPrefs.SetString("token", _response.token);
+            PlayerPrefs.SetString("username", _response.usuario.username);
             msgLogIn.text = "Login successful";
-            yield return waiting;
+            yield return _waiting;
             StartCoroutine(LoadAsyncScene());
         } else {
+            Debug.Log(usernameLogin.text.ToString() + " " + passwordLogin.text);
             msgLogIn.text = www.downloadHandler.text;
         }
 
@@ -102,17 +119,39 @@ public class AuthHandler : MonoBehaviour {
         www.SetRequestHeader("x-token", PlayerPrefs.GetString("token"));
         yield return www.SendWebRequest();
         if (www.result == UnityWebRequest.Result.Success) {
+            _response = JsonUtility.FromJson<AuthResponse>(www.downloadHandler.text);
             msgGetProfile.text = "Login successful";
-            yield return waiting;
+            yield return _waiting;
             StartCoroutine(LoadAsyncScene());
         } else {
             msgGetProfile.text = www.downloadHandler.text;
         }
     }
-    IEnumerator LoadAsyncScene() {
+    private IEnumerator UpdateData(int score) {
+        _user = new User {
+            username = _user.username,
+            data = new UserData {
+                score = score
+            }
+        };
+        string jsonData = JsonUtility.ToJson(_user);
+        string url = BASE_URI + "usuarios";
+        using UnityWebRequest www = UnityWebRequest.Put(url, jsonData);
+        www.method = "PATCH";
+        www.SetRequestHeader("x-token", _response.token);
+        yield return www.SendWebRequest();
+        if (www.result == UnityWebRequest.Result.Success) {
+            Debug.Log("Se actualizo los datos");
+            yield return _waiting;
+        } else {
+            Debug.LogError("No se pudo actualizar el score");
+        }
+    }
+    private IEnumerator LoadAsyncScene() {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
         while (!asyncLoad.isDone) {
             yield return null;
         }
     }
+    public string GetUsername() => _response.usuario.username.ToString();
 }
