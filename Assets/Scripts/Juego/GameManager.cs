@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
         int numberRows;
         int numberColumns;
         bool numberInRange;
-        string saveString = SaveSystem.Load(path);
+        string saveString = "{\r\n \"blocks\": [\r\n {\r\n \"R\": 1,\r\n \"C\": 1,\r\n \"number\": 1\r\n },\r\n {\r\n \"R\": 2,\r\n \"C\": 1,\r\n \"number\": 5\r\n },\r\n {\r\n \"R\": 3,\r\n \"C\": 1,\r\n \"number\": 2\r\n },\r\n {\r\n \"R\": 4,\r\n \"C\": 1,\r\n \"number\": 6\r\n },\r\n {\r\n \"R\": 1,\r\n \"C\": 2,\r\n \"number\": 6\r\n },\r\n {\r\n \"R\": 2,\r\n \"C\": 2,\r\n \"number\": 2\r\n },\r\n {\r\n \"R\": 3,\r\n \"C\": 2,\r\n \"number\": 3\r\n },\r\n {\r\n \"R\": 4,\r\n \"C\": 2,\r\n \"number\": 5\r\n },\r\n {\r\n \"R\": 1,\r\n \"C\": 3,\r\n \"number\": 3\r\n },\r\n {\r\n \"R\": 2,\r\n \"C\": 3,\r\n \"number\": 4\r\n },\r\n {\r\n \"R\": 3,\r\n \"C\": 3,\r\n \"number\": 4\r\n },\r\n {\r\n \"R\": 4,\r\n \"C\": 3,\r\n \"number\": 1\r\n }\r\n ]\r\n}";
         blocksData = JsonUtility.FromJson<BlocksData>(saveString);
 
         if (blocksData.blocks.Length % 2 != 0)
