@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 [Serializable]
 public class UserData_AuthRequest {
@@ -17,13 +18,18 @@ class AuthResponse {
     public string token;
 }
 [Serializable]
-class User {
+public class User {
     public string username;
     public UserData data;
 }
 [Serializable]
-class UserData {
+public class UserData {
     public int score;
+}
+
+[Serializable]
+public class UsersResponse : EventArgs {
+    public User[] usuarios;
 }
 
 public class AuthHandler : MonoBehaviour {
@@ -45,14 +51,16 @@ public class AuthHandler : MonoBehaviour {
     private readonly WaitForSeconds _waiting = new(3);
     private static AuthResponse _response;
     private static User _user;
-
+    private static UsersResponse _users;
     public static AuthHandler Instance { get; private set; }
+    public event EventHandler<UsersResponse> SetUp;
 
     public void SignUpBtn() => StartCoroutine(SignUp());
     public void LogInBtn() => StartCoroutine(LogIn());
     public void UpdateScore(int score) => StartCoroutine(UpdateData(score));
     public void LeaderBoard() => StartCoroutine(GetScoreBoard());
     public string GetUsername() => _response.usuario.username.ToString();
+    public UsersResponse GetUsers() => _users;
 
     private void Awake() {
         if (Instance != null) {
@@ -141,21 +149,29 @@ public class AuthHandler : MonoBehaviour {
             }
         };
         string jsonData = JsonUtility.ToJson(_user);
-        Debug.Log(jsonData);
         string url = BASE_URI + "usuarios";
         using UnityWebRequest www = UnityWebRequest.Post(url, jsonData, "application/json");
         www.method = "PATCH";
         www.SetRequestHeader("x-token", PlayerPrefs.GetString("token"));
         yield return www.SendWebRequest();
         if (www.result == UnityWebRequest.Result.Success) {
-            Debug.Log("Se actualizo los datos");
             yield return _waiting;
         } else {
             Debug.LogError(www.downloadHandler.text);
         }
     }
     private IEnumerator GetScoreBoard() {
-        yield return _waiting;
+        string url = BASE_URI + "usuarios?limit=10";
+        using UnityWebRequest www = UnityWebRequest.Get(url);
+        www.SetRequestHeader("x-token", PlayerPrefs.GetString("token"));
+        yield return www.SendWebRequest();
+        if (www.result == UnityWebRequest.Result.Success) {
+            _users = JsonUtility.FromJson<UsersResponse>(www.downloadHandler.text);
+            SetUp?.Invoke(this, _users);
+            yield return _waiting;
+        } else {
+            Debug.LogError(www.downloadHandler.text);
+        }
     }
     private IEnumerator LoadAsyncScene() {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);

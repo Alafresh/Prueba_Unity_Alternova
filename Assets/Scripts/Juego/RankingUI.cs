@@ -1,7 +1,9 @@
-using System.IO;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class RankingUI : MonoBehaviour
 {
@@ -20,24 +22,43 @@ public class RankingUI : MonoBehaviour
 
     private void Start()
     {
-        ReadPlayerResults();
+        AuthHandler.Instance.SetUp += AuthHandler_SetUp;
+        AuthHandler.Instance.LeaderBoard();
+
+    }
+    private void AuthHandler_SetUp(object sender, UsersResponse e) {
+        
+        if (playersResults == null)
+            playersResults = new PlayersResults();
+        
+        int n = e.usuarios.Length;
+
+        if(playersResults.players == null || playersResults.players.Length != n) {
+            playersResults.players = new PlayerInfo[n];
+            for (int k = 0; k < n; k++)
+                playersResults.players[k] = new PlayerInfo(default, default);
+        }
+
+        for (int i = 0; i < e.usuarios.Length; i++) {
+            playersResults.players[i].name = e.usuarios[i].username;
+            playersResults.players[i].score = e.usuarios[i].data.score;
+        }
+
+        if (playersResults.players != null && playersResults != null) {
+            playersInfoList.AddRange(playersResults.players);
+        }
         SortScores();
-        SetUpRanking();
     }
 
     private void ReadPlayerResults()
     {
-        string pathPlayersResults = "PlayersResults.json";
-        string existingJson = SaveSystem.Load(pathPlayersResults);
+        UsersResponse users = AuthHandler.Instance.GetUsers();
 
-        if (string.IsNullOrEmpty(existingJson))
-        {
-            Debug.LogError("Error al cargar el archivo JSON");
-            return;
+        for (int i = 0; i < users.usuarios.Length; i++) {
+            playersResults.players[i].name = users.usuarios[i].username;
+            playersResults.players[i].score = users.usuarios[i].data.score;
         }
 
-        playersResults = JsonUtility.FromJson<PlayersResults>(existingJson);
-        
         if (playersResults.players != null && playersResults != null)
         {
             playersInfoList.AddRange(playersResults.players);
@@ -59,11 +80,10 @@ public class RankingUI : MonoBehaviour
     private void SortScores()
     {
         playersInfoList.Sort((x, y) => y.score.CompareTo(x.score));
+        SetUpRanking();
     }
-
     public void RestartScene()
     {
         GameManager.Instance.RestartScene();
     }
-
 }

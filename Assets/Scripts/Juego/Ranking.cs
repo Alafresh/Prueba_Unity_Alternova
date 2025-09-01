@@ -9,7 +9,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine.UI;
 
-[System.Serializable]
+[Serializable]
 public class PlayerInfo
 {
     public string name;
@@ -22,7 +22,7 @@ public class PlayerInfo
     }
 }
 
-[System.Serializable]
+[Serializable]
 public class PlayersResults
 {
     public PlayerInfo[] players;

@@ -161,6 +161,102 @@
             "total_time": 18,
             "pairs": 6,
             "score": 7956
+        },
+        {
+            "total_clicks": 16,
+            "total_time": 13,
+            "pairs": 6,
+            "score": 7971
+        },
+        {
+            "total_clicks": 18,
+            "total_time": 12,
+            "pairs": 6,
+            "score": 7970
+        },
+        {
+            "total_clicks": 18,
+            "total_time": 11,
+            "pairs": 6,
+            "score": 7971
+        },
+        {
+            "total_clicks": 18,
+            "total_time": 12,
+            "pairs": 6,
+            "score": 7970
+        },
+        {
+            "total_clicks": 14,
+            "total_time": 9,
+            "pairs": 6,
+            "score": 7977
+        },
+        {
+            "total_clicks": 18,
+            "total_time": 10,
+            "pairs": 6,
+            "score": 7972
+        },
+        {
+            "total_clicks": 22,
+            "total_time": 14,
+            "pairs": 6,
+            "score": 7964
+        },
+        {
+            "total_clicks": 16,
+            "total_time": 12,
+            "pairs": 6,
+            "score": 7972
+        },
+        {
+            "total_clicks": 12,
+            "total_time": 9,
+            "pairs": 6,
+            "score": 7979
+        },
+        {
+            "total_clicks": 14,
+            "total_time": 9,
+            "pairs": 6,
+            "score": 7977
+        },
+        {
+            "total_clicks": 16,
+            "total_time": 10,
+            "pairs": 6,
+            "score": 7974
+        },
+        {
+            "total_clicks": 15,
+            "total_time": 9,
+            "pairs": 6,
+            "score": 7976
+        },
+        {
+            "total_clicks": 22,
+            "total_time": 16,
+            "pairs": 6,
+            "score": 7962
+        },
+        {
+            "total_clicks": 16,
+            "total_time": 10,
+            "pairs": 6,
+            "score": 7974
+        },
+        {
+            "total_clicks": 12,
+            "total_time": 9,
+            "pairs": 6,
+            "score": 7979
+        },
+        {
+            "total_clicks": 19,
+            "total_time": 11,
+            "pairs": 6,
+            "score": 7970
         }
     ]
 }
