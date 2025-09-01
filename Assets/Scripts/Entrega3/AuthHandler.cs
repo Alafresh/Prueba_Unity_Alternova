@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 [Serializable]
 public class UserData_AuthRequest {
@@ -36,7 +35,6 @@ public class AuthHandler : MonoBehaviour {
 
     private const string BASE_URI = "https://sid-restapi.onrender.com/api/";
 
-    [SerializeField] private Button authBtn;
     [SerializeField] private GameObject SignUpObject;
     [SerializeField] private GameObject LogInObject;
     [SerializeField] private TMP_InputField usernameSignUp;
@@ -138,7 +136,6 @@ public class AuthHandler : MonoBehaviour {
             StartCoroutine(LoadAsyncScene());
         } else {
             msgGetProfile.text = www.downloadHandler.text;
-            authBtn.interactable = true;
         }
     }
     private IEnumerator UpdateData(int score) {
