@@ -269,6 +269,24 @@
             "total_time": 9,
             "pairs": 6,
             "score": 7977
+        },
+        {
+            "total_clicks": 14,
+            "total_time": 12,
+            "pairs": 6,
+            "score": 7974
+        },
+        {
+            "total_clicks": 12,
+            "total_time": 7,
+            "pairs": 6,
+            "score": 7981
+        },
+        {
+            "total_clicks": 14,
+            "total_time": 10,
+            "pairs": 6,
+            "score": 7976
         }
     ]
 }

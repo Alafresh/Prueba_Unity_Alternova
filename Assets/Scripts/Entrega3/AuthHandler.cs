@@ -125,7 +125,7 @@ public class AuthHandler : MonoBehaviour {
     private IEnumerator GetProfile() {
         string url = BASE_URI + $"usuarios/{PlayerPrefs.GetString("username")}";
         using UnityWebRequest www = UnityWebRequest.Get(url);
-        www.SetRequestHeader("x-token", PlayerPrefs.GetString("token"));
+        www.SetRequestHeader("x-token", PlayerPrefs.GetString("toke"));
         yield return www.SendWebRequest();
         if (www.result == UnityWebRequest.Result.Success) {
             _response = JsonUtility.FromJson<AuthResponse>(www.downloadHandler.text);

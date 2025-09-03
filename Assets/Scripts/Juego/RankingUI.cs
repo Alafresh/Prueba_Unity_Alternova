@@ -22,8 +22,8 @@ public class RankingUI : MonoBehaviour
 
     private void Start()
     {
-        AuthHandler.Instance.SetUp += AuthHandler_SetUp;
         AuthHandler.Instance.LeaderBoard();
+        AuthHandler.Instance.SetUp += AuthHandler_SetUp;
 
     }
     private void AuthHandler_SetUp(object sender, UsersResponse e) {
