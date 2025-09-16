@@ -33,7 +33,7 @@ public class UsersResponse : EventArgs {
 
 public class AuthHandler : MonoBehaviour {
 
-    private const string BASE_URI = "https://sid-restapi.onrender.com/api/";
+    private const string BASE_URI = "http://localhost:5068/api/";
 
     [SerializeField] private GameObject SignUpObject;
     [SerializeField] private GameObject LogInObject;
