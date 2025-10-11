@@ -1,16 +1,41 @@
+using Firebase.Auth;
+using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonSignUp : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+    [SerializeField] private Button registrationBtn;
+    [SerializeField] private TMP_InputField emailInputField;
+    [SerializeField] private TMP_InputField passwordInputField;
+    private Coroutine _regristrationCoroutine;
+
+    void Start() {
+        registrationBtn.onClick.AddListener(HandleRegisterButtonClecked);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void HandleRegisterButtonClecked() {
+        string email = emailInputField.text.ToLower();
+        string password = passwordInputField.text.ToLower();
+
+        _regristrationCoroutine = StartCoroutine(RegisterUser(email, password));
+    }
+
+    private IEnumerator RegisterUser(string email, string password) {
+        var auth = FirebaseAuth.DefaultInstance;
+        var registerTask = auth.CreateUserWithEmailAndPasswordAsync(email, password);
+
+        yield return new WaitUntil(() => registerTask.IsCompleted);
+
+        if (registerTask.IsCanceled) {
+            Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled");
+        } else if (registerTask.IsFaulted) {
+            Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + registerTask.Exception);
+        } else {
+            AuthResult result = registerTask.Result;
+            Debug.LogFormat("Firebase useer created successfully: {0} {1}",
+                result.User.DisplayName, result.User.UserId);
+        }
     }
 }

@@ -1363,59 +1363,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &626064617
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 626064619}
-  - component: {fileID: 626064618}
-  m_Layer: 0
-  m_Name: WebApi
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &626064618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 626064617}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20b5f28571cfdbf4cbe2abb239ade0e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SignUpObject: {fileID: 1121659979}
-  LogInObject: {fileID: 878144302}
-  usernameSignUp: {fileID: 1235555762}
-  usernameLogin: {fileID: 1438141453}
-  passwordSignUp: {fileID: 1186080498}
-  passwordLogin: {fileID: 2069083147}
-  msgSignUp: {fileID: 2021262174}
-  msgLogIn: {fileID: 267686742}
-  msgGetProfile: {fileID: 1473403874}
---- !u!4 &626064619
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 626064617}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 981.4988, y: 466.54373, z: -0.21602842}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &711564524
 GameObject:
   m_ObjectHideFlags: 0
@@ -2108,6 +2055,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1023186456 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3420881201267416697, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
+  m_PrefabInstance: {fileID: 1759780671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1023234046
 GameObject:
   m_ObjectHideFlags: 0
@@ -3221,17 +3179,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &1438141453 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5034601546203737082, guid: 83a916c7d11854a3c8e63f548dcb0c0f, type: 3}
-  m_PrefabInstance: {fileID: 1722077131}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1473403871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3934,7 +3881,7 @@ PrefabInstance:
     - target: {fileID: 3971613660724835687, guid: 83a916c7d11854a3c8e63f548dcb0c0f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 626064618}
+      objectReference: {fileID: 0}
     - target: {fileID: 3971613660724835687, guid: 83a916c7d11854a3c8e63f548dcb0c0f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: LogInBtn
@@ -3958,7 +3905,7 @@ PrefabInstance:
     - target: {fileID: 4872555795795832187, guid: 83a916c7d11854a3c8e63f548dcb0c0f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 626064618}
+      objectReference: {fileID: 0}
     - target: {fileID: 4872555795795832187, guid: 83a916c7d11854a3c8e63f548dcb0c0f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -4194,7 +4141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100310, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22451994, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_Pivot.x
@@ -4278,11 +4225,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 230762443159172377, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_ContentType
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 230762443159172377, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
+      propertyPath: m_KeyboardType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 230762443159172377, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
+      propertyPath: m_CharacterLimit
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 230762443159172377, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_CharacterValidation
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 484821473209345832, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_InputType
@@ -4322,7 +4277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3420881201267416697, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3420881201267416697, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -4335,7 +4290,7 @@ PrefabInstance:
     - target: {fileID: 3420881201267416697, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 626064618}
+      objectReference: {fileID: 0}
     - target: {fileID: 3420881201267416697, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -4436,6 +4391,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -45
       objectReference: {fileID: 0}
+    - target: {fileID: 4695426414265508770, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
+      propertyPath: m_Name
+      value: InputField-Email
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733628832038637001, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
+      propertyPath: m_text
+      value: Email
+      objectReference: {fileID: 0}
     - target: {fileID: 4733628832038637001, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
@@ -4443,6 +4406,14 @@ PrefabInstance:
     - target: {fileID: 4915821793658986488, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 4945017011946598803, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
+      propertyPath: m_Name
+      value: InputField-Password
+      objectReference: {fileID: 0}
+    - target: {fileID: 4988335350810599396, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
+      propertyPath: m_Name
+      value: Button - SignUp
       objectReference: {fileID: 0}
     - target: {fileID: 4988335350810599419, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -4480,13 +4451,31 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2791226399650787546, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 326013545}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 100310, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1759780674}
   m_SourcePrefab: {fileID: 100100000, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
 --- !u!224 &1759780672 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 22451994, guid: 438e1e914277b4d72b9b5ec90232fcbc, type: 3}
   m_PrefabInstance: {fileID: 1759780671}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1759780674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1121659979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a02bbac781c2914083dba43ef5c608e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  registrationBtn: {fileID: 1023186456}
+  emailInputField: {fileID: 1235555762}
+  passwordInputField: {fileID: 1186080498}
 --- !u!1 &1824195809
 GameObject:
   m_ObjectHideFlags: 0
@@ -4500,7 +4489,7 @@ GameObject:
   - component: {fileID: 1824195812}
   - component: {fileID: 1824195811}
   m_Layer: 5
-  m_Name: Button - Green
+  m_Name: Button - LogIn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4703,7 +4692,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 626064618}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AuthHandler, Assembly-CSharp
         m_MethodName: ChangeWindow
         m_Mode: 1
@@ -4732,7 +4721,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1941452797
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4884,17 +4873,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &2069083147 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7859990638021508531, guid: 83a916c7d11854a3c8e63f548dcb0c0f, type: 3}
-  m_PrefabInstance: {fileID: 1722077131}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4902,4 +4880,3 @@ SceneRoots:
   - {fileID: 119729915}
   - {fileID: 711564528}
   - {fileID: 843415738}
-  - {fileID: 626064619}

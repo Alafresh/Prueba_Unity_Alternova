@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "351920738873",
+    "firebase_url": "https://autenticacionsid-default-rtdb.firebaseio.com",
+    "project_id": "autenticacionsid",
+    "storage_bucket": "autenticacionsid.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351920738873:android:330195ea32e52945bf33e8",
+        "android_client_info": {
+          "package_name": "com.upb.Autenticacion"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIzujo7fiFwA0PaIHwDfCc1Tfhuhvn0f8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
