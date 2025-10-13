@@ -1,4 +1,5 @@
 using Firebase.Auth;
+using Firebase.Database;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -9,10 +10,13 @@ public class ButtonSignUp : MonoBehaviour
     [SerializeField] private Button registrationBtn;
     [SerializeField] private TMP_InputField emailInputField;
     [SerializeField] private TMP_InputField passwordInputField;
+    [SerializeField] private TMP_InputField usernameInputField;
     private Coroutine _regristrationCoroutine;
+    private DatabaseReference _mDatabaseRef;
 
     void Start() {
         registrationBtn.onClick.AddListener(HandleRegisterButtonClecked);
+        _mDatabaseRef = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
     private void HandleRegisterButtonClecked() {
@@ -36,6 +40,11 @@ public class ButtonSignUp : MonoBehaviour
             AuthResult result = registerTask.Result;
             Debug.LogFormat("Firebase useer created successfully: {0} {1}",
                 result.User.DisplayName, result.User.UserId);
+            
+            var userId = result.User.UserId;
+            string username = usernameInputField.text.ToLower();
+
+            _mDatabaseRef.Child("users").Child(userId).Child("username").SetValueAsync(username);
         }
     }
 }

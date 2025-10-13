@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class CheckAuth : MonoBehaviour
 {
     [SerializeField] string sceneToLoad;
-    private bool _whenAuthenticated;
+    private bool _whenAuthenticated = true;
 
     private void Start() {
         FirebaseAuth.DefaultInstance.StateChanged += HandleAuthStateChange;
@@ -16,8 +16,11 @@ public class CheckAuth : MonoBehaviour
 
         if (isAuthenticated == _whenAuthenticated) {
             Debug.LogFormat(FirebaseAuth.DefaultInstance.CurrentUser.UserId);
-            SceneManager.LoadScene(sceneToLoad);
+            Invoke(nameof(LoadNewScene), 2f);
         }
+    }
+    public void LoadNewScene() {
+        SceneManager.LoadScene(sceneToLoad);
     }
     private void OnDestroy() {
         FirebaseAuth.DefaultInstance.StateChanged -= HandleAuthStateChange;

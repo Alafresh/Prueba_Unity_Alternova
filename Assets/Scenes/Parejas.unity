@@ -3238,9 +3238,9 @@ RectTransform:
   - {fileID: 678077009}
   m_Father: {fileID: 1585614089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -60}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &529700655
@@ -4359,9 +4359,9 @@ RectTransform:
   - {fileID: 1337005096}
   m_Father: {fileID: 1585614089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -300}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &670560214 stripped
@@ -5683,9 +5683,9 @@ RectTransform:
   - {fileID: 643255320}
   m_Father: {fileID: 1585614089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -180}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &847679470
@@ -9460,9 +9460,9 @@ RectTransform:
   - {fileID: 603747565}
   m_Father: {fileID: 1585614089}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -420}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1445719103
@@ -10490,7 +10490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1585614089
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10554,7 +10554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalClicksText: {fileID: 1924067645}
   totalPairsText: {fileID: 1118548687}
-  username: {fileID: 460965701}
+  textUsername: {fileID: 460965701}
 --- !u!1 &1602398976
 GameObject:
   m_ObjectHideFlags: 0
