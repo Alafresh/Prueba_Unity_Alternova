@@ -25,6 +25,10 @@ public class ButtonSaveScore : MonoBehaviour
                         DataSnapshot snap = task.Result;
                         oldScore = Convert.ToInt32(snap.Value);
                         Debug.Log($"oldScore={oldScore}, newScore={score}");
+                        if (oldScore == 0) {
+                            mDatabaseRef.Child("users").Child(currentUser.UserId).
+                            Child("score").SetValueAsync(score);
+                        }
                         if (score > oldScore) {
                             mDatabaseRef.Child("users").Child(currentUser.UserId).
                             Child("score").SetValueAsync(score);
