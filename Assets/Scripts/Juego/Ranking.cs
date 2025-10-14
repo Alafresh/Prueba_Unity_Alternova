@@ -13,9 +13,9 @@ using UnityEngine.UI;
 public class PlayerInfo
 {
     public string name;
-    public int score;
+    public string score;
 
-    public PlayerInfo(string name, int score)
+    public PlayerInfo(string name, string score)
     {
         this.name = name;
         this.score = score;
@@ -49,8 +49,8 @@ public class Ranking : MonoBehaviour
         }
         submitButton.interactable = false;
         int score = GameManager.Instance.CalculateScore();
-        PlayerInfo playerInfo = new PlayerInfo(name, score);
-        playersInfoList.Add(playerInfo);
+        //PlayerInfo playerInfo = new PlayerInfo(name, score);
+        //playersInfoList.Add(playerInfo);
         CheckResultsToJson();
     }
 

@@ -4390,7 +4390,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5656328695094980658, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
   m_PrefabInstance: {fileID: 5744271808890820913}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1780641451}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40c4086e2d48c174eb74e66f7c8ee8bc, type: 3}
@@ -11134,6 +11134,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1749670900}
   m_CullTransparentMesh: 0
+--- !u!1 &1780641451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5565124392947363688, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
+  m_PrefabInstance: {fileID: 5744271808890820913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1780641453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780641451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d94999077ca2fd348a3fca46970534b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1800653689
 GameObject:
   m_ObjectHideFlags: 0
@@ -14337,9 +14354,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2113425414}
     - target: {fileID: 5656328695094980658, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
+      propertyPath: btnSaveScore
+      value: 
+      objectReference: {fileID: 1780641453}
+    - target: {fileID: 5656328695094980658, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
       propertyPath: gridLayoutGroup
       value: 
       objectReference: {fileID: 1194273469}
+    - target: {fileID: 5656328695094980658, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
+      propertyPath: leaderBoardManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5656328695094980658, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
       propertyPath: 'cardPool.Array.data[0]'
       value: 
@@ -14596,10 +14621,21 @@ PrefabInstance:
       propertyPath: 'cardPool.Array.data[63]'
       value: 
       objectReference: {fileID: 1120482706}
+    - target: {fileID: 5656328695094980658, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
+      propertyPath: UpdateClicksUI.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656328695094980658, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
+      propertyPath: UpdateClicksUI.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5565124392947363688, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1780641453}
   m_SourcePrefab: {fileID: 100100000, guid: e402455a400c7454e9999f9ad8d5cc72, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

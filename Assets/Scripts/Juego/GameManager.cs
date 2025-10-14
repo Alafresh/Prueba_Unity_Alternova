@@ -41,7 +41,9 @@ public class GamesResults
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    
+
+    [SerializeField] private Dictionary<string, object> leaderBoardManager;
+    [SerializeField] private ButtonSaveScore btnSaveScore;
     [SerializeField] private Timer timer;
     [SerializeField] GridLayoutGroup gridLayoutGroup;
     [SerializeField] private Transform cardPrefab;
@@ -167,7 +169,8 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    
+    public Dictionary<string, object> GetLeaderBoard() => leaderBoardManager;
+    public void SetLeaderBoard(Dictionary<string, object> leaderBoard) => leaderBoardManager = leaderBoard;
     private void CheckPair(Card card1, Card card2)
     {
         if (card1.cardId == card2.cardId)
@@ -175,7 +178,6 @@ public class GameManager : MonoBehaviour
             card1.transform.GetChild(0).TryGetComponent(out Image image1);
             card2.transform.GetChild(0).TryGetComponent(out Image image2);
             image1.sprite = image2.sprite = rightPair;
-            Debug.Log("Par encontrado");
             totalPairs++;
             UpdatePairsUI.Invoke(totalPairs);
             this.card1 = this.card2 = null;
@@ -183,8 +185,9 @@ public class GameManager : MonoBehaviour
 
             if (CheckWin())
             {
+                btnSaveScore.HandleSaveScoreButtonClicked();
                 winPanel.OpenPopup();
-                CheckResultsToJson();
+                //CheckResultsToJson();
             }
         }
         else

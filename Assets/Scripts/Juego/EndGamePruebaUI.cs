@@ -1,6 +1,9 @@
+using Firebase.Database;
+using Firebase.Extensions;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 using UnityEngine.UI;
 
 public class EndGamePruebaUI : MonoBehaviour
@@ -16,8 +19,17 @@ public class EndGamePruebaUI : MonoBehaviour
         time.text = GameManager.Instance.GetTotalTime().ToString();
         clicks.text = GameManager.Instance.GetTotalClicks().ToString();
         pairs.text = GameManager.Instance.GetTotalPairs().ToString();
-        updateScoreBtn.onClick.AddListener(UpdateScore);
+        updateScoreBtn.onClick.AddListener(GetLeaderBoard);
     }
-    public void UpdateScore() => AuthHandler.Instance.UpdateScore(GameManager.Instance.CalculateScore());
+    public void GetLeaderBoard() {
+        FirebaseDatabase.DefaultInstance
+            .GetReference("users").OrderByChild("score").LimitToLast(10)
+            .GetValueAsync().ContinueWithOnMainThread(task => {
+                if (task.IsCompleted) {
+                    DataSnapshot snapshot = task.Result;
+                    GameManager.Instance.SetLeaderBoard((Dictionary<string, object>)snapshot.Value);
+                } 
+            });
+    }
     public void RestartScene() => GameManager.Instance.RestartScene();
 }

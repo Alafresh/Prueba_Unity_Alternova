@@ -35,7 +35,6 @@ public class StatisticsUI : MonoBehaviour
                     textUsername.text = "NULL";
                 } else if (task.IsCompleted) {
                     DataSnapshot snapshot = task.Result;
-                    Debug.Log(snapshot.Value);
                     textUsername.text = (string)snapshot.Value;
                 }
             });
