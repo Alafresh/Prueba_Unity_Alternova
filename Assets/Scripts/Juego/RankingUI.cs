@@ -22,7 +22,7 @@ public class RankingUI : MonoBehaviour
     }
     private void Start()
     {
-        Invoke("SetUpLeaderBoard", 0.2f);
+        Invoke("SetUpLeaderBoard", 0.5f);
     }
     private void SetUpLeaderBoard() {
         _leaderBoardUsers = GameManager.Instance.GetLeaderBoard();
